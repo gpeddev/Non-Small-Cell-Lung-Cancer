@@ -10,7 +10,7 @@ class DatabaseCT:
 
     @staticmethod
     def windowing(dir_in, dir_out, wl=-600, ww=1500, slope=1, intercept=-1024):
-        for item in DatabaseCT.__ct_file_list(dir_in):
+        for item in os.listdir(dir_in):
             data = ImageCT(dir_in + item).get_image_data()
             data = data * slope - intercept  # slope * data + intercept
             data[data <= (wl - ww / 2)] = wl - ww / 2
@@ -19,7 +19,7 @@ class DatabaseCT:
 
     @staticmethod
     def grayscale(dir_in, dir_out):
-        for item in DatabaseCT.__ct_file_list(dir_in):
+        for item in os.listdir(dir_in):
             data = ImageCT(dir_in + item).get_image_data()
             min_image_value = np.min(data)
             max_image_value = np.max(data)
@@ -29,7 +29,7 @@ class DatabaseCT:
 
     @staticmethod
     def masking(dir_in, dir_out, mask_dir):
-        for filename in DatabaseCT.__ct_file_list(dir_in):
+        for filename in os.listdir(dir_in):
             image = Sitk.ReadImage(dir_in + filename)
             image_mask = Sitk.ReadImage(mask_dir + filename.replace(".nii", "_roi.nii"))
             image_mask = Sitk.GetImageFromArray(Sitk.GetArrayFromImage(image_mask).astype(np.uint8))
@@ -39,14 +39,14 @@ class DatabaseCT:
     @staticmethod
     def cropping_minimum(dir_in, dir_out):
         max_width = DatabaseCT.__find_max_width_per_database(dir_in)
-        for item in DatabaseCT.__ct_file_list(dir_in):
+        for item in os.listdir(dir_in):
             image = ImageCT(dir_in + item)
             cropped_image_data = image.crop_per_ct(max_width)
             Sitk.WriteImage(Sitk.GetImageFromArray(cropped_image_data), dir_out+item)
 
     @staticmethod
     def create_windowed_masks(dir_in, dir_out, window_width):
-        for filename in DatabaseCT.__ct_file_list(dir_in):
+        for filename in os.listdir(dir_in):
             mask_image = MaskCT(dir_in+filename)
             try:
                 mask_image.window_mask(window_width)
@@ -64,7 +64,7 @@ class DatabaseCT:
     @staticmethod
     def __find_max_width_per_database(dir_in):
         widths = []
-        for item in DatabaseCT.__ct_file_list(dir_in):
+        for item in os.listdir(dir_in):
             image = ImageCT(dir_in + item)
             widths.append(image.find_max_widths_per_ct())
         return max(widths)
@@ -76,7 +76,7 @@ class DatabaseCT:
         min_slides = 1000000
         max_slides = -1000000
         lst = []
-        for item in DatabaseCT.__ct_file_list(dir_in):
+        for item in os.listdir(dir_in):
             image = ImageCT(dir_in + item)
             slide_number = image.get_image_data().shape[0]
             print("CT filename: ", image.get_filename())
@@ -88,7 +88,7 @@ class DatabaseCT:
             lst.append(slide_number)
 
         print("\n\nOverall statistics")
-        print("Total number of CTs: ", len(DatabaseCT.__ct_file_list(dir_in)))
+        print("Total number of CTs: ", len(os.listdir(dir_in)))
         print("Total number of slides: ", total)
         print("Average number of slides: ", total/counter)
         print("Minimum number of slides", min_slides)
