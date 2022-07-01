@@ -1,39 +1,45 @@
-from ProcessingCTs.DatabaseCT import DatabaseCT
+from ProcessingCTs.DatabaseCT import DatabaseCT as dbCT
 
-Original_Images = "/home/gped/Workspace/Thesis/01_Data/003_Data/00_Images/"
-Original_Masks = "/home/gped/Workspace/Thesis/01_Data/003_Data/01_Masks/"
-Windowed_Images = "/home/gped/Workspace/Thesis/01_Data/003_Data/02_Windowing/"
-Grayscale_Images = "/home/gped/Workspace/Thesis/01_Data/003_Data/03_Grayscale/"
-Masked_Images_out = "/home/gped/Workspace/Thesis/01_Data/003_Data/04_Masked/"
-Cropped_Images = "/home/gped/Workspace/Thesis/01_Data/003_Data/05_Tumor_Cropped/"
-Create_Window_Masks = "/home/gped/Workspace/Thesis/01_Data/003_Data/06_Window_Masks/"
-Window_Masked_Images = "/home/gped/Workspace/Thesis/01_Data/003_Data/07_Window_Masked_Images/"
-Window_Cropped_Images = "/home/gped/Workspace/Thesis/01_Data/003_Data/08_Window_Cropped_Images/"
+Original_Images = "./Data/00_Images/"
+Original_Masks = "./Data/01_Masks/"
+WindowCT = "./Data/02_WindowCT_VAE1_results/"
+GrayscaleCT = "./Data/03_GrayscaleCT_VAE1_results/"
+MaskCT = "./Data/04_MaskCT_VAE1_results/"
+CropTumor = "./Data/05_CropTumor_VAE1_results/"
+NewMaskWindow = "./Data/06_NewMaskWindow_VAE2_results/"
+MaskedCT = "./Data/07_MaskedCT_VAE2_results/"
+CroppedWindow = "./Data/08_CroppedWindow_VAE2_results/"
 
-img_db = DatabaseCT()
 ########################################################################################################################
 #                                                       VAE 1                                                          #
 ########################################################################################################################
-img_db.windowing(dir_in=Original_Images, dir_out=Windowed_Images, wl=-600, ww=1500, slope=1, intercept=1024)
-print("Windowing completed")
-
-img_db.grayscale(Windowed_Images, Grayscale_Images)
-print("Grayscale completed")
-
-img_db.masking(Grayscale_Images, Masked_Images_out, Original_Masks)
-print("Masking completed")
-
-img_db.cropping_minimum(Masked_Images_out, Cropped_Images)
-print("Cropping tumor completed")
+# dbCT.windowing(dir_in=Original_Images, dir_out=WindowCT, wl=-600, ww=1500, slope=1, intercept=1024)
+# print("WindowCT completed")
+#
+# dbCT.grayscale(WindowCT, GrayscaleCT)
+# print("GrayscaleCT completed")
+#
+# dbCT.masking(GrayscaleCT, MaskCT, Original_Masks)
+# print("MaskCT completed")
+#
+# dbCT.cropping_minimum(MaskCT, CropTumor)
+# print("CropTumor completed")
 
 ########################################################################################################################
 #                                                       VAE 2                                                          #
 ########################################################################################################################
-img_db.create_windowed_masks(Original_Masks, Create_Window_Masks, 104)
-print("Create windowed masks completed")
+# dbCT.create_windowed_masks(Original_Masks, NewMaskWindow, 104)
+# print("NewMaskWindow completed")
+#
+# dbCT.masking(GrayscaleCT, MaskedCT, NewMaskWindow)
+# print("MaskedCT completed")
+#
+# dbCT.cropping_minimum(MaskedCT, CroppedWindow)
+# print("CroppedWindow completed")
 
-img_db.masking(Grayscale_Images, Window_Masked_Images, Create_Window_Masks)
-print("Masking completed")
+########################################################################################################################
+#                                                   Statistics                                                         #
+########################################################################################################################
 
-img_db.cropping_minimum(Window_Masked_Images, Window_Cropped_Images)
-print("Cropping Window tumor completed")
+dbCT.slice_statistics(CropTumor)
+

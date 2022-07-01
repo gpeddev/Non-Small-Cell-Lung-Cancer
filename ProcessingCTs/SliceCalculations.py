@@ -33,16 +33,12 @@ class SliceCalculations:
     @staticmethod
     def problem_with_boundaries(ct_slice, row_center, col_center, width):
         if row_center-width < 0:
-            print("Out of bounds: upper side")
             return True
         if row_center+width > ct_slice.shape[0]-1:
-            print("Out of bounds: lower side")
             return True
         if col_center-width < 0:
-            print("Out of bounds: left side")
             return True
         if col_center+width > ct_slice.shape[1]-1:
-            print("Out of bounds: right side")
             return True
         return False
 

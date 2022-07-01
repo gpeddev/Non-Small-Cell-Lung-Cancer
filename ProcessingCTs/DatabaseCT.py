@@ -3,6 +3,7 @@ import numpy as np
 import SimpleITK as Sitk
 from ProcessingCTs.ImageCT import ImageCT
 from ProcessingCTs.MaskCT import MaskCT
+import matplotlib.pyplot as plt
 
 
 class DatabaseCT:
@@ -59,10 +60,6 @@ class DatabaseCT:
     def __ct_file_list(filepath):
         file_list = os.listdir(filepath)
         return file_list
-        # results = []
-        # for filename in file_list:
-        #     results.append(filename)
-#        return results
 
     @staticmethod
     def __find_max_width_per_database(dir_in):
@@ -71,3 +68,30 @@ class DatabaseCT:
             image = ImageCT(dir_in + item)
             widths.append(image.find_max_widths_per_ct())
         return max(widths)
+
+    @staticmethod
+    def slice_statistics(dir_in):
+        total = 0
+        counter = 0
+        min_slides = 1000000
+        max_slides = -1000000
+        lst = []
+        for item in DatabaseCT.__ct_file_list(dir_in):
+            image = ImageCT(dir_in + item)
+            slide_number = image.get_image_data().shape[0]
+            print("CT filename: ", image.get_filename())
+            print("Number of slides: ", slide_number)
+            min_slides = min(min_slides, slide_number)
+            max_slides = max(max_slides, slide_number)
+            total = total + slide_number
+            counter = counter + 1
+            lst.append(slide_number)
+
+        print("\n\nOverall statistics")
+        print("Total number of CTs: ", len(DatabaseCT.__ct_file_list(dir_in)))
+        print("Total number of slides: ", total)
+        print("Average number of slides: ", total/counter)
+        print("Minimum number of slides", min_slides)
+        print("Max number of slides", max_slides)
+        plt.hist(lst, bins=50)
+        plt.show()
