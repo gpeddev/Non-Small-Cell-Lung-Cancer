@@ -7,7 +7,7 @@ class CT:
 
     def __init__(self, filepath):
         filename = filepath.split("/")[-1]
-        self.__image_data = Sitk.GetArrayFromImage(Sitk.ReadImage(filepath, Sitk.sitkFloat64))
+        self.__image_data = Sitk.GetArrayFromImage(Sitk.ReadImage(filepath, Sitk.sitkUInt8))
         self.__filename = filename
 
     def get_image_data(self):
@@ -53,12 +53,14 @@ class CT:
 
         return max(widths)
 
-    def crop_per_ct(self, width):
-        number_of_slices = self.__image_data.shape[0]
+    @staticmethod
+    def crop_per_ct(image, width):
+        data = Sitk.GetArrayFromImage(image)
+        number_of_slices = data.shape[0]
         result_list = []
 
         for slice_number in range(number_of_slices):
-            ct_slice = self.__image_data[slice_number, :, :]
+            ct_slice = data[slice_number, :, :]
             row_center, col_center = Slcal.find_center_per_slice(ct_slice)
             if Slcal.problem_with_boundaries(ct_slice, row_center, col_center, width):
                 ct_slice = Slcal.adjust_padding_center(ct_slice, row_center, col_center, width)

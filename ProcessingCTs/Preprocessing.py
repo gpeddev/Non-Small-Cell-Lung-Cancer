@@ -4,29 +4,29 @@ from Paths import *
 ########################################################################################################################
 #                                                       VAE 1                                                          #
 ########################################################################################################################
-dbCT.windowing(dir_in=Original_Images, dir_out=WindowCT, wl=-600, ww=1500, slope=1, intercept=1024)
-print("WindowCT completed")
+print("VAE 1\n")
+dbCT.windowing(dir_in=Original_Images, dir_out=WindowCT, wl=-600, ww=1500, slope=1, intercept=-1024)
+print("WindowCT ready")
 
 dbCT.grayscale(WindowCT, GrayscaleCT)
-print("GrayscaleCT completed")
+print("GrayscaleCT ready")
 
-dbCT.masking(GrayscaleCT, MaskCT, Original_Masks)
-print("MaskCT completed")
+dbCT.masking(GrayscaleCT, MaskedCT_VAE1, Original_Masks)
+print("MaskedCT_VAE1 ready")
 
-dbCT.cropping_minimum(MaskCT, CropTumor)
-print("CropTumor completed")
+dbCT.cropping_minimum(MaskedCT_VAE1, CropTumor)
+print("CropTumor ready")
 
 ########################################################################################################################
 #                                                       VAE 2                                                          #
 ########################################################################################################################
+print("VAE 2\n")
 dbCT.create_windowed_masks(Original_Masks, NewMaskWindow, 104)
-print("NewMaskWindow completed")
+print("NewMaskWindow ready")
 
-dbCT.masking(GrayscaleCT, MaskedCT, NewMaskWindow)
-print("MaskedCT completed")
+dbCT.masking(GrayscaleCT, MaskedCT_VAE2, NewMaskWindow)
+print("MaskedCT_VAE2 ready")
 
-dbCT.cropping_minimum(MaskedCT, CroppedWindow)
-print("CroppedWindow completed")
-
-dbCT.slice_statistics(CropTumor)
+dbCT.cropping_minimum(MaskedCT_VAE2, CroppedWindow)
+print("CroppedWindow ready")
 
