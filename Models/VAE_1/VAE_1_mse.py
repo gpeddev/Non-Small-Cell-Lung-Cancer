@@ -10,7 +10,7 @@ tfpl = tfp.layers
 tfd = tfp.distributions
 
 log_dir = "./Logs/mse" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
-tensorboard_callback = tfk.callbacks.TensorBoard(log_dir=log_dir)
+tensorboard_callback = tfk.callbacks.TensorBoard(log_dir=log_dir,update_freq='epoch')
 
 ################################################### Mean Square Error ##################################################
 
@@ -48,6 +48,7 @@ encoder = tfk.Sequential([
     tfkl.Dense(units=tfpl.MultivariateNormalTriL.params_size(latent_dimentions),
                activation=None),
     tfpl.MultivariateNormalTriL(event_size=latent_dimentions,
+                                convert_to_tensor_fn=tfd.Distribution.sample,
                                 activity_regularizer=tfpl.KLDivergenceRegularizer(prior,
                                                                                   weight=kl_weight)),
 ])
@@ -77,7 +78,15 @@ decoder = tfk.Sequential([
 ])
 decoder.summary()
 
-early_stopping = tfk.callbacks.EarlyStopping(monitor="val_loss", verbose=1, patience=50)
+early_stopping_kfold = tfk.callbacks.EarlyStopping(monitor="val_loss",
+                                                   patience=50,
+                                                   verbose=1)
+
+early_stopping_training_db = tfk.callbacks.EarlyStopping(monitor="loss",
+                                                         patience=50,
+                                                         verbose=1,
+                                                         restore_best_weights=True)
+
 VAE = tfk.Model(inputs=encoder.inputs, outputs=decoder(encoder.outputs[0]))
 
 VAE.compile(optimizer=tf.optimizers.Adam(learning_rate=1e-4),
