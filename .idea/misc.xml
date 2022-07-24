@@ -5,32 +5,16 @@
     <option name="openedFilesInfos">
       <list>
         <OpenedFileInfo>
-          <option name="caretOffset" value="178" />
-          <option name="fileUrl" value="file://$PROJECT_DIR$/Scripts/restore_from_backup.sh" />
-        </OpenedFileInfo>
-        <OpenedFileInfo>
-          <option name="caretOffset" value="350" />
+          <option name="caretOffset" value="337" />
           <option name="fileUrl" value="file://$PROJECT_DIR$/Scripts/clean_data.sh" />
         </OpenedFileInfo>
         <OpenedFileInfo>
-          <option name="caretOffset" value="620" />
+          <option name="caretOffset" value="435" />
+          <option name="fileUrl" value="file://$PROJECT_DIR$/Scripts/restore_from_backup.sh" />
+        </OpenedFileInfo>
+        <OpenedFileInfo>
+          <option name="caretOffset" value="1496" />
           <option name="fileUrl" value="file://$PROJECT_DIR$/Preprocessing.py" />
-        </OpenedFileInfo>
-        <OpenedFileInfo>
-          <option name="caretOffset" value="221" />
-          <option name="fileUrl" value="file://$PROJECT_DIR$/Paths.py" />
-        </OpenedFileInfo>
-        <OpenedFileInfo>
-          <option name="caretOffset" value="3185" />
-          <option name="fileUrl" value="file://$PROJECT_DIR$/ProcessingCTs/DatabaseCT.py" />
-        </OpenedFileInfo>
-        <OpenedFileInfo>
-          <option name="caretOffset" value="969" />
-          <option name="fileUrl" value="file://$PROJECT_DIR$/ProcessingCTs/CT.py" />
-        </OpenedFileInfo>
-        <OpenedFileInfo>
-          <option name="caretOffset" value="304" />
-          <option name="fileUrl" value="file://$PROJECT_DIR$/ProcessingCTs/SliceCalculations.py" />
         </OpenedFileInfo>
       </list>
     </option>
