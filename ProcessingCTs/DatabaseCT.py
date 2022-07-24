@@ -45,6 +45,8 @@ class DatabaseCT:
 
     @staticmethod
     def cropping_minimum(dir_in, dir_out):
+        print(dir_in)
+        print(dir_out)
         max_width = DatabaseCT.__find_max_width_per_database(dir_in)
         for item in os.listdir(dir_in):
             image = Sitk.ReadImage(dir_in+item, Sitk.sitkUInt8)
@@ -70,6 +72,7 @@ class DatabaseCT:
 
     @staticmethod
     def __find_max_width_per_database(dir_in):
+        print("dir_in"+dir_in)
         widths = []
         for item in os.listdir(dir_in):
             image = ImageCT(dir_in + item)
