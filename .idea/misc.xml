@@ -5,16 +5,16 @@
     <option name="openedFilesInfos">
       <list>
         <OpenedFileInfo>
-          <option name="caretOffset" value="337" />
-          <option name="fileUrl" value="file://$PROJECT_DIR$/Scripts/clean_data.sh" />
+          <option name="caretOffset" value="3022" />
+          <option name="fileUrl" value="file://$PROJECT_DIR$/VAE_1.py" />
         </OpenedFileInfo>
         <OpenedFileInfo>
-          <option name="caretOffset" value="435" />
-          <option name="fileUrl" value="file://$PROJECT_DIR$/Scripts/restore_from_backup.sh" />
+          <option name="caretOffset" value="0" />
+          <option name="fileUrl" value="file://$PROJECT_DIR$/Models/ModelParameters.py" />
         </OpenedFileInfo>
         <OpenedFileInfo>
-          <option name="caretOffset" value="1496" />
-          <option name="fileUrl" value="file://$PROJECT_DIR$/Preprocessing.py" />
+          <option name="caretOffset" value="662" />
+          <option name="fileUrl" value="file://$PROJECT_DIR$/Models/VAE_1/VAE_1_mse.py" />
         </OpenedFileInfo>
       </list>
     </option>

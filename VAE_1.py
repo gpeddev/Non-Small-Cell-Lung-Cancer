@@ -59,7 +59,7 @@ for train, val in kFold.split(train_filename_list):
     VAE.set_weights(initial_weights)
     # fit model
     fit_results = VAE.fit(training_db,
-                          epochs=10,
+                          epochs=1000,
                           validation_data=val_db,
                           callbacks=[early_stopping_kfold, tensorboard_callback],
                           verbose=1)
@@ -73,7 +73,7 @@ for item in kFold_results:
 
 print("Average Loss at kfold at valuation data is: ")
 print(add_val_losses / len(kFold_results))
-
+import visualkeras
 
 # ###################################################### TRAIN MODEL WITH OPTIMIZED HYPER PARAMETERS TO TRAINING DATASET
 

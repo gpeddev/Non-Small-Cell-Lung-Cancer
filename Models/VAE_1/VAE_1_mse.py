@@ -20,8 +20,11 @@ def preprocess(sample):
 
 
 # Training options
-latent_dimentions = 256
+learning_rate = 1e-4
+latent_dimentions = 128
 filters_number = 32
+kernels_number = 3
+stride = 2
 kl_weight = 1
 
 # Prior
@@ -33,15 +36,15 @@ encoder = tfk.Sequential([
     tfkl.InputLayer(input_shape=(138, 138, 1)),
     tfkl.Conv2D(filters=filters_number,
                 kernel_size=3,
-                strides=2,
+                strides=stride,
                 activation="relu"),
     tfkl.Conv2D(filters=filters_number,
                 kernel_size=3,
-                strides=2,
+                strides=stride,
                 activation="relu"),
     tfkl.Conv2D(filters=filters_number,
                 kernel_size=3,
-                strides=2,
+                strides=stride,
                 activation="relu"),
     tfkl.Flatten(),
     tfkl.Dense(units=tfpl.MultivariateNormalTriL.params_size(latent_dimentions),
@@ -78,15 +81,15 @@ decoder = tfk.Sequential([
 decoder.summary()
 
 early_stopping_kfold = tfk.callbacks.EarlyStopping(monitor="val_loss",
-                                                   patience=50,
+                                                   patience=30,
                                                    verbose=1)
 
 early_stopping_training_db = tfk.callbacks.EarlyStopping(monitor="loss",
-                                                         patience=50,
+                                                         patience=30,
                                                          verbose=1,
                                                          restore_best_weights=True)
 
 VAE = tfk.Model(inputs=encoder.inputs, outputs=decoder(encoder.outputs[0]))
 
-VAE.compile(optimizer=tf.optimizers.Adam(learning_rate=1e-4),
+VAE.compile(optimizer=tf.optimizers.Adam(learning_rate=learning_rate),
             loss=tf.keras.losses.MeanSquaredError())
