@@ -1,22 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.9" project-jdk-type="Python SDK" />
-  <component name="UnattendedHostPersistenceState">
-    <option name="openedFilesInfos">
-      <list>
-        <OpenedFileInfo>
-          <option name="caretOffset" value="3022" />
-          <option name="fileUrl" value="file://$PROJECT_DIR$/VAE_1.py" />
-        </OpenedFileInfo>
-        <OpenedFileInfo>
-          <option name="caretOffset" value="0" />
-          <option name="fileUrl" value="file://$PROJECT_DIR$/Models/ModelParameters.py" />
-        </OpenedFileInfo>
-        <OpenedFileInfo>
-          <option name="caretOffset" value="662" />
-          <option name="fileUrl" value="file://$PROJECT_DIR$/Models/VAE_1/VAE_1_mse.py" />
-        </OpenedFileInfo>
-      </list>
-    </option>
-  </component>
+  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.9 (Thesis)" project-jdk-type="Python SDK" />
 </project>

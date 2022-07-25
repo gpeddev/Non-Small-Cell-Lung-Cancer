@@ -5,7 +5,7 @@ import SimpleITK as Sitk
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import KFold
 import os
-from Models.VAE_1.VAE_1_mse import VAE, preprocess, early_stopping_kfold, tensorboard_callback, \
+from Models.VAE_1.VAE_model_1 import VAE, preprocess, early_stopping_kfold, tensorboard_callback, \
     early_stopping_training_db
 from Paths import CropTumor
 import tensorflow as tf
@@ -73,7 +73,7 @@ for item in kFold_results:
 
 print("Average Loss at kfold at valuation data is: ")
 print(add_val_losses / len(kFold_results))
-import visualkeras
+
 
 # ###################################################### TRAIN MODEL WITH OPTIMIZED HYPER PARAMETERS TO TRAINING DATASET
 

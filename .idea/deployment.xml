@@ -1,25 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" autoUpload="Always" serverName="gped@34.168.117.33:22" remoteFilesAllowedToDisappearOnAutoupload="false">
+  <component name="PublishConfigData" autoUpload="Always" remoteFilesAllowedToDisappearOnAutoupload="false">
     <serverData>
-      <paths name="gped@34.168.117.33:22">
+      <paths name="gped@35.210.160.142:22">
         <serverdata>
           <mappings>
-            <mapping deploy="/tmp/pycharm_project_256" local="$PROJECT_DIR$" />
-          </mappings>
-        </serverdata>
-      </paths>
-      <paths name="gped@35.187.60.35:22">
-        <serverdata>
-          <mappings>
-            <mapping deploy="/tmp/pycharm_project_269" local="$PROJECT_DIR$" />
-          </mappings>
-        </serverdata>
-      </paths>
-      <paths name="gped@35.187.60.35:22 (2)">
-        <serverdata>
-          <mappings>
-            <mapping deploy="/tmp/pycharm_project_744" local="$PROJECT_DIR$" />
+            <mapping deploy="/tmp/pycharm_project_596" local="$PROJECT_DIR$" />
           </mappings>
         </serverdata>
       </paths>
