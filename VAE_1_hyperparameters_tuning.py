@@ -3,11 +3,12 @@
 ########################################################################################################################
 import os
 from datetime import datetime
+import random
 
 import numpy as np
 from sklearn.model_selection import KFold, train_test_split
 from Datasets_splits.splited_datasets import preprocess_data
-from Models.VAE_1.VAE_1_parameters import batch_size
+from Models.VAE_1.VAE_1_parameters import batch_size, learning_rate, kernels_number, filters_number, latent_dimensions
 from Models.VAE_1.VAE_model_1 import VAE, early_stopping_kfold, tfk
 from Paths import CropTumor
 
@@ -16,13 +17,16 @@ initial_weights = VAE.get_weights()
 
 
 # ############################################################################################### KFOLD CROSS VALIDATION
-file_array = np.array(os.listdir(CropTumor))
+file_array = os.listdir(CropTumor)
+random.shuffle(file_array)
+file_array = np.array(file_array)
+
 # init_train is the part used in kfold cross validation
 # init_test is the part used for testing
 
 kFold = KFold(n_splits=5, shuffle=True, random_state=1)
 kFold_results = []
-time_started=datetime.now()
+time_started = datetime.now()
 
 for converge_dataset, test_dataset in kFold.split(file_array):
 
@@ -43,9 +47,9 @@ for converge_dataset, test_dataset in kFold.split(file_array):
                           batch_size=batch_size,
                           shuffle=True,
                           callbacks=[early_stopping_kfold, tensorboard_callback],
-                          verbose=1)
+                          verbose=2)
     kFold_results.append(fit_results)
-time_ended=datetime.now()
+time_ended = datetime.now()
 
 # ######################################################################################## AVERAGE VALIDATION FROM KFOLD
 add_val_losses = 0
@@ -56,6 +60,11 @@ print("Average Loss at kfold at valuation data is: ")
 print(add_val_losses / len(kFold_results))
 print("Time started: ", time_started)
 print("Time started: ", time_ended)
+print("learning rate:",learning_rate)
+print("latent_dimentions:",latent_dimensions)
+print("filters_number:",filters_number)
+print("kernels_number:",kernels_number)
+print("stride:",stride)
 
 # from matplotlib import pyplot as plt
 # data=VAE.predict(whole_training_dataset[10:15])
@@ -63,8 +72,6 @@ print("Time started: ", time_ended)
 # plt.show()
 # plt.imshow(np.reshape(whole_training_dataset[10:15][0], newshape=(138, 138)) * 255)
 # plt.show()
-
-
 
 
 # ###################################################### TRAIN MODEL WITH OPTIMIZED HYPER PARAMETERS TO TRAINING DATASET

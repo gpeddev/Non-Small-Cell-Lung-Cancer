@@ -1,8 +1,8 @@
+from random import random
+
 import SimpleITK as Sitk
 import numpy as np
-import os
-from Paths import CropTumor
-from sklearn.model_selection import train_test_split
+
 
 
 # Helpers functions
@@ -17,6 +17,7 @@ def get_all_slices(filepath, file_list):
 
 def preprocess_data(path,filenames):
     selected_slices = get_all_slices(path, filenames)
+#    random.shuffle(selected_slices)
     selected_slices = selected_slices.astype("float32") / 255
     selected_slices = np.reshape(selected_slices,
                               newshape=(selected_slices.shape[0],

@@ -90,6 +90,7 @@ def loss_func(encoder_mu, encoder_log_variance):
     return vae_loss
 
 
+
 # Compile model
 VAE.compile(optimizer=tfk.optimizers.Adam(learning_rate=learning_rate),
             loss=loss_func(encoder_mu_layer, encoder_log_variance_layer))
