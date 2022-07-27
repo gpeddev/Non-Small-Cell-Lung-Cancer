@@ -1,6 +1,5 @@
 import tensorflow as tf
 import tensorflow_probability as tfp
-import datetime
 
 # Shortcuts
 from Models.VAE_1.VAE_1_parameters import *
@@ -11,20 +10,12 @@ tfpl = tfp.layers
 tfd = tfp.distributions
 tfkb = tfk.backend
 
-log_dir = "./Logs/mse" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
-tensorboard_callback = tfk.callbacks.TensorBoard(log_dir=log_dir, update_freq='epoch')
-
-physical_devices = tf.config.experimental.list_physical_devices('GPU')
-assert len(physical_devices) > 0, "Not enough GPU hardware devices available"
-config = tf.config.experimental.set_memory_growth(physical_devices[0], True)
-
 
 # function for sampling from mu and log_var
 def sampling(mu_log_variance):
-    mu = mu_log_variance[0]
-    log_variance = mu_log_variance[1]
-    epsilon = tf.keras.backend.random_normal(shape=(tf.shape(mu)[0], tf.shape(mu)[1]), mean=0.0, stddev=1.0)
-    random_sample = mu + tf.keras.backend.exp(log_variance / 2) * epsilon
+    mu, log_variance = mu_log_variance
+    epsilon =  tf.random.normal(shape=(tf.shape(mu)[0], tf.shape(mu)[1]), mean=0.0, stddev=1.0)
+    random_sample = mu + tf.math.exp(log_variance / 2) * epsilon
     return random_sample
 
 
@@ -79,21 +70,21 @@ VAE.summary()
 
 
 def loss_func(encoder_mu, encoder_log_variance):
-
     def vae_reconstruction_loss(y_true, y_predict):
-        reconstruction_loss_factor = 1000
-        reconstruction_loss = tfkb.mean(tfkb.square(y_true-y_predict), axis=[1, 2, 3])
-        return reconstruction_loss_factor * reconstruction_loss
+
+        reconstruction_loss = tf.math.reduce_sum(tf.math.square(y_true-y_predict), axis=[1, 2, 3])
+        return reconstruction_loss
 
     def vae_kl_loss(encoder_mu, encoder_log_variance):
-        kl_loss = -0.5 * tfkb.sum(1.0 + encoder_log_variance - tfkb.square(encoder_mu) - tfkb.exp(encoder_log_variance),
+        kl_loss = -0.5 * tf.math.reduce_sum(1.0 + encoder_log_variance - tf.math.square(encoder_mu) - tf.math.exp(encoder_log_variance),
                                   axis=1)
         return kl_loss
+
 
     def vae_loss(y_true, y_predict):
         reconstruction_loss = vae_reconstruction_loss(y_true, y_predict)
         kl_loss = vae_kl_loss(y_true, y_predict)
-        loss = reconstruction_loss + 5*kl_loss
+        loss = reconstruction_loss + kl_loss
         return loss
 
     return vae_loss
@@ -108,6 +99,7 @@ early_stopping_kfold = tfk.callbacks.EarlyStopping(monitor="val_loss",
                                                    patience=20,
                                                    verbose=2)
 early_stopping_training_db = tfk.callbacks.EarlyStopping(monitor="loss",
-                                                         patience=20,
+                                                         patience=30,
                                                          verbose=2,
                                                          restore_best_weights=True)
+
