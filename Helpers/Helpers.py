@@ -1,4 +1,4 @@
-from random import random
+import random
 
 import SimpleITK as Sitk
 import numpy as np
@@ -13,6 +13,7 @@ def get_all_slices(filepath, file_list):
         image_data = Sitk.GetArrayFromImage(Sitk.ReadImage(filepath+filename, Sitk.sitkUInt8))
         for i in range(image_data.shape[0]):
             results.append(image_data[i, :, :])
+    random.shuffle(results)
     return np.array(results)
 
 def preprocess_data(path,filenames):

@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from Datasets_splits.splited_datasets import preprocess_data, holdout_filename_list
+from Helpers.Helpers import preprocess_data, holdout_filename_list
 from Models.VAE_1.VAE_1_parameters import *
 from Models.VAE_1.VAE_model_1 import VAE, early_stopping_training_db
 from Paths import CropTumor

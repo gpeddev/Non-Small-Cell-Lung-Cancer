@@ -7,9 +7,10 @@ import random
 
 import numpy as np
 from sklearn.model_selection import KFold, train_test_split
-from Datasets_splits.splited_datasets import preprocess_data
-from Models.VAE_1.VAE_1_parameters import batch_size, learning_rate, kernels_number, filters_number, latent_dimensions
-from Models.VAE_1.VAE_model_1 import VAE, early_stopping_kfold, tfk
+from Helpers.Helpers import preprocess_data
+from Models.VAE_1.VAE_1_parameters import batch_size, learning_rate, kernels_number, filters_number, latent_dimensions, \
+    stride, kl_weight, reconstruction_weight
+from Models.VAE_1.VAE_model_1 import VAE, early_stopping_kfold, tfk, encoder, decoder
 from Paths import CropTumor
 
 # Store initial model weights for resets
@@ -24,15 +25,20 @@ file_array = np.array(file_array)
 # init_train is the part used in kfold cross validation
 # init_test is the part used for testing
 
+
+time_started = datetime.now()
+counter = 1
+
+
 kFold = KFold(n_splits=5, shuffle=True, random_state=1)
 kFold_results = []
-time_started = datetime.now()
 
 for converge_dataset, test_dataset in kFold.split(file_array):
 
+    #np.array(file_array[test_dataset]).save("./test_dataset_" + str(counter))
     log_dir = "./Logs/model_1_hyperparameter_tunning" + datetime.now().strftime("%Y%m%d-%H%M%S")
     tensorboard_callback = tfk.callbacks.TensorBoard(log_dir=log_dir, update_freq='epoch')
-    train_dataset, val_dataset = train_test_split(converge_dataset, test_size=0.10, shuffle=True)
+    train_dataset, val_dataset = train_test_split(converge_dataset, test_size=0.20, shuffle=True)
 
     train_slices = preprocess_data(CropTumor, file_array[train_dataset])
     val_slices = preprocess_data(CropTumor, file_array[val_dataset])
@@ -48,7 +54,14 @@ for converge_dataset, test_dataset in kFold.split(file_array):
                           shuffle=True,
                           callbacks=[early_stopping_kfold, tensorboard_callback],
                           verbose=2)
+
+    VAE.save("./SavedModels/VAE_" + str(counter))
+    encoder.save("./SavedModels/VAE_encoder_" + str(counter))
+    decoder.save("./SavedModels/VAE_decoder_" + str(counter))
+    counter = counter + 1
+
     kFold_results.append(fit_results)
+
 time_ended = datetime.now()
 
 # ######################################################################################## AVERAGE VALIDATION FROM KFOLD
@@ -65,6 +78,9 @@ print("latent_dimentions:",latent_dimensions)
 print("filters_number:",filters_number)
 print("kernels_number:",kernels_number)
 print("stride:",stride)
+print("kl_weight:",kl_weight)
+print("reconstruction_weight:",reconstruction_weight)
+
 
 # from matplotlib import pyplot as plt
 # data=VAE.predict(whole_training_dataset[10:15])
