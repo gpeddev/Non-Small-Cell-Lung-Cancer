@@ -10,7 +10,7 @@ from sklearn.model_selection import KFold, train_test_split
 from Helpers.Helpers import preprocess_data
 from Models.VAE_1.VAE_1_parameters import batch_size, learning_rate, kernels_number, filters_number, latent_dimensions, \
     stride, kl_weight, reconstruction_weight
-from Models.VAE_1.VAE_model_1 import VAE, early_stopping_kfold, tfk, encoder, decoder
+from Models.VAE_1.VAE_model_1_reduced import VAE, early_stopping_kfold, tfk, encoder, decoder
 from Paths import CropTumor
 
 # Store initial model weights for resets
