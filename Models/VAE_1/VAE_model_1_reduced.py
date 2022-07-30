@@ -1,7 +1,5 @@
 import tensorflow as tf
 import tensorflow_probability as tfp
-
-# Shortcuts
 from Models.VAE_1.VAE_1_parameters import *
 
 tfk = tf.keras

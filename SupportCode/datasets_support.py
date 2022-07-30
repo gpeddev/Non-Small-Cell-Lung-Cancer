@@ -1,6 +1,7 @@
 import random
 import SimpleITK as Sitk
 import numpy as np
+from keras.preprocessing.image import ImageDataGenerator
 
 
 # _get_all_slices
@@ -29,3 +30,13 @@ def preprocess_data(path, filenames):
                                            1)
                                  )
     return selected_slices
+
+
+# Data augmentation function for the training dataset
+def data_augmentation(data_array, data_augmentation_factor=10):
+    datagen = ImageDataGenerator(horizontal_flip=True, rotation_range=10)
+    results = []
+    it = datagen.flow(data_array, shuffle=True, seed=1)
+    for i in range(data_augmentation_factor*data_array.shape[0]):
+        results.append(it.next())
+    return np.array(results)
