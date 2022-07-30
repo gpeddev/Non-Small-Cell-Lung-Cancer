@@ -1,19 +1,17 @@
 #!/bin/bash
 cd ..
 NOW=$( date '+%F_%H:%M:%S' )
-mkdir "./Results/$NOW"
+mkdir "./StoreResults/$NOW"
 
-mv "./SavedModels" "./Results/$NOW/"
-mkdir "./SavedModels"
-
-
-mv "./Logs/" "./Results/$NOW/"
-mkdir "./Logs"
-
-cat ./Models/VAE_1/VAE_1_parameters.py >> "./Results/$NOW/parameters"
+mv "./Output/Models" "./StoreResults/$NOW/"
+mkdir "./Output/Models"
 
 
+mv "./Output/Logs" "./StoreResults/$NOW/"
+mkdir "./Output/Logs"
 
-mv "./Images" "./Results/$NOW/"
+cat ./Models/VAE_1/VAE_1_parameters.py >> "./Output/$NOW/parameters"
 
-mkdir "./Images"
+mv "./Output/Images" "./StoreResults/$NOW/"
+
+mkdir "./Output/Images"

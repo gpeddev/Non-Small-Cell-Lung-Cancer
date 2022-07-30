@@ -1,5 +1,5 @@
 from ProcessingCTs.DatabaseCT import DatabaseCT as dbCT
-from Paths import *
+from SupportCode.Paths import *
 
 ########################################################################################################################
 #                                                       VAE 1                                                          #
