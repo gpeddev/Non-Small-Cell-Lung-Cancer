@@ -3,6 +3,7 @@ import SimpleITK as Sitk
 import numpy as np
 from keras_preprocessing.image import ImageDataGenerator
 
+
 # _get_all_slices
 # returns an array containing all slices of all the files in the file_list
 # returned array shape => (number of all slices, slice_width, slice_height)
@@ -32,10 +33,9 @@ def preprocess_data(path, filenames):
 
 
 def create_image_augmentation_dir(slices, growth_factor=5):
-    generator_batch_size = 32
     number_of_slices = slices.shape[0]
-    slices=slices*255
-    datagen = ImageDataGenerator(horizontal_flip=True, rotation_range=15)
+    slices = slices*255
+    datagen = ImageDataGenerator(horizontal_flip=True, rotation_range=90)
 
     i = 0
     for batch in datagen.flow(slices,
@@ -45,14 +45,12 @@ def create_image_augmentation_dir(slices, growth_factor=5):
                               save_to_dir="./Data/09_TrainingSet_VAE1",
                               save_format="png",
                               save_prefix="slice_"):
-        batch
         i = i+1
         if i == (number_of_slices*growth_factor):
             break
 
 
-
-## in case I upgrade my memory.
+# in case I upgrade my memory.
 # # Data augmentation function for the training dataset
 # def data_augmentation(data_array, data_augmentation_factor=10):
 #     datagen = ImageDataGenerator(horizontal_flip=True, rotation_range=10)

@@ -1,14 +1,14 @@
 ########################################################################################################################
 #                                                       VAE 1                                                          #
 ########################################################################################################################
-
-import glob, os
+import glob
+import os
 from datetime import datetime
 import numpy as np
 from sklearn.model_selection import KFold, train_test_split
 from SupportCode.datasets_support import preprocess_data, create_image_augmentation_dir
 from Models.VAE_1.VAE_1_parameters import *
-from Models.VAE_1.VAE_model_1_6LAYERS import VAE, early_stopping_kfold, tfk, encoder, decoder
+from Models.VAE_1.VAE_model_1_4_layers import VAE, early_stopping_kfold, tfk, encoder, decoder
 from SupportCode.Paths import CropTumor
 import tensorflow as tf
 # Store initial model weights for resets
@@ -19,8 +19,10 @@ def preprocess_dataset_train(image):
     image = tf.cast(image, tf.float32) / 255.  # Scale to unit interval.
     return image, image
 
+
 def preprocess_dataset_valuation(image):
     return image, image
+
 
 # Get data from the appropriate directory
 file_array = os.listdir(CropTumor)
@@ -30,7 +32,7 @@ kFold = KFold(n_splits=5, shuffle=True, random_state=1)
 
 counter = 1     # counter used for numbering the stored models
 kFold_results = []      # hold history output of fitting the model
-t=1
+
 time_started = datetime.now()
 
 # k-fold initial splits of our datasets to 5 test and converge datasets
@@ -47,10 +49,9 @@ for converge_dataset, test_dataset in kFold.split(file_array):          # kfold 
     train_slices = preprocess_data(CropTumor, file_array[train_dataset])
     val_slices = preprocess_data(CropTumor, file_array[val_dataset])
 
-
     # training dataset
     # create directory with augmented images
-    create_image_augmentation_dir(train_slices, growth_factor=3)
+    create_image_augmentation_dir(train_slices, growth_factor=10)
     # create a dataset from directory
     train_dset = tf.keras.preprocessing.image_dataset_from_directory(directory="./Data/09_TrainingSet_VAE1",
                                                                      labels=None,
@@ -60,11 +61,19 @@ for converge_dataset, test_dataset in kFold.split(file_array):          # kfold 
                                                                      batch_size=None,
                                                                      shuffle=True)
 
-    train_dset = (train_dset.map(preprocess_dataset_train).cache().batch(batch_sz).prefetch(tf.data.AUTOTUNE).shuffle(1))
+    train_dset = (train_dset.map(preprocess_dataset_train)
+                  .cache()
+                  .batch(batch_sz)
+                  .prefetch(tf.data.AUTOTUNE)
+                  .shuffle(1))
 
     # validation dataset
     val_dset = tf.data.Dataset.from_tensor_slices(val_slices)
-    val_dset = (val_dset.map(preprocess_dataset_valuation).cache().batch(batch_sz).prefetch(tf.data.AUTOTUNE).shuffle(1))
+    val_dset = (val_dset.map(preprocess_dataset_valuation)
+                .cache()
+                .batch(batch_sz)
+                .prefetch(tf.data.AUTOTUNE)
+                .shuffle(1))
 
     # reset model weights before training
     VAE.set_weights(initial_weights)

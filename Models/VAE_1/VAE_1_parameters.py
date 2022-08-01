@@ -1,8 +1,8 @@
-learning_rate = 0.000001
-latent_dimensions = 256
+learning_rate = 0.00001
+latent_dimensions = 128
 filters_number = 64
 kernels_number = 3
 stride = 2
-batch_sz = 16
+batch_sz = 8
 kl_weight = 1
 reconstruction_weight = 1
