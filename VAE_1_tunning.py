@@ -1,19 +1,26 @@
 ########################################################################################################################
 #                                                       VAE 1                                                          #
 ########################################################################################################################
-import os
+
+import glob, os
 from datetime import datetime
 import numpy as np
 from sklearn.model_selection import KFold, train_test_split
-from SupportCode.datasets_support import preprocess_data, data_augmentation
+from SupportCode.datasets_support import preprocess_data, create_image_augmentation_dir
 from Models.VAE_1.VAE_1_parameters import *
 from Models.VAE_1.VAE_model_1_6LAYERS import VAE, early_stopping_kfold, tfk, encoder, decoder
 from SupportCode.Paths import CropTumor
-
-
+import tensorflow as tf
 # Store initial model weights for resets
 initial_weights = VAE.get_weights()
 
+
+def preprocess_dataset_train(image):
+    image = tf.cast(image, tf.float32) / 255.  # Scale to unit interval.
+    return image, image
+
+def preprocess_dataset_valuation(image):
+    return image, image
 
 # Get data from the appropriate directory
 file_array = os.listdir(CropTumor)
@@ -23,7 +30,7 @@ kFold = KFold(n_splits=5, shuffle=True, random_state=1)
 
 counter = 1     # counter used for numbering the stored models
 kFold_results = []      # hold history output of fitting the model
-
+t=1
 time_started = datetime.now()
 
 # k-fold initial splits of our datasets to 5 test and converge datasets
@@ -40,20 +47,38 @@ for converge_dataset, test_dataset in kFold.split(file_array):          # kfold 
     train_slices = preprocess_data(CropTumor, file_array[train_dataset])
     val_slices = preprocess_data(CropTumor, file_array[val_dataset])
 
-    # add data augmentation to our training dataset
-    train_slices = data_augmentation(train_slices, 15)
+
+    # training dataset
+    # create directory with augmented images
+    create_image_augmentation_dir(train_slices, growth_factor=3)
+    # create a dataset from directory
+    train_dset = tf.keras.preprocessing.image_dataset_from_directory(directory="./Data/09_TrainingSet_VAE1",
+                                                                     labels=None,
+                                                                     label_mode=None,
+                                                                     image_size=(138, 138),
+                                                                     color_mode="grayscale",
+                                                                     batch_size=None,
+                                                                     shuffle=True)
+
+    train_dset = (train_dset.map(preprocess_dataset_train).cache().batch(batch_sz).prefetch(tf.data.AUTOTUNE).shuffle(1))
+
+    # validation dataset
+    val_dset = tf.data.Dataset.from_tensor_slices(val_slices)
+    val_dset = (val_dset.map(preprocess_dataset_valuation).cache().batch(batch_sz).prefetch(tf.data.AUTOTUNE).shuffle(1))
 
     # reset model weights before training
     VAE.set_weights(initial_weights)
 
     # fit model
-    fit_results = VAE.fit(train_slices, train_slices,
-                          epochs=100000,
-                          validation_data=(val_slices, val_slices),
-                          batch_size=batch_size,
-                          shuffle=True,
+    fit_results = VAE.fit(train_dset,
+                          epochs=1000,
+                          validation_data=val_dset,
                           callbacks=[early_stopping_kfold, tensorboard_callback],
-                          verbose=2)
+                          verbose=2
+                          )
+
+    for f in glob.glob("./Data/09_TrainingSet_VAE1/*.png"):
+        os.remove(f)
 
     # store trained models
     VAE.save("./Output/Models/VAE_" + str(counter))
@@ -76,20 +101,22 @@ add_val_losses = 0
 for item in kFold_results:
     add_val_losses = add_val_losses + item.history["val_loss"][-1]
 
-print("Average Loss at kfold at valuation data is: ")
-print(add_val_losses / len(kFold_results))
-print("Time started: ", time_started)
-print("Time started: ", time_ended)
-print("learning rate:", learning_rate)
-print("latent_dimensions:", latent_dimensions)
-print("filters_number:", filters_number)
-print("kernels_number:", kernels_number)
-print("stride:", stride)
-print("kl_weight:", kl_weight)
-print("reconstruction_weight:", reconstruction_weight)
+output = "Average Loss at kfold at valuation data is: " + str(add_val_losses / len(kFold_results)) + "\n" + \
+         "Time started: " + str(time_started) + "\n" + \
+         "Time ended: " + str(time_ended) + "\n" + \
+         "learning rate: " + str(learning_rate) + "\n" + \
+         "latent_dimensions: " + str(latent_dimensions) + "\n" +\
+         "filters_number: " + str(filters_number) + "\n" +\
+         "batch_size: " + str(batch_sz) + "\n" + \
+         "kl_weight: " + str(kl_weight) + "\n" + \
+         "reconstruction_weight: " + str(reconstruction_weight)
 
+print(output)
+
+# save hyperparameters to file
+text_file = open("./Output/hyperparameters.txt", "w")
+text_file.write(output)
+text_file.close()
 
 # Notify finish training
-duration = 1  # seconds
-freq = 440  # Hz
-os.system('spd-say "Your program has finished"')
+os.system('spd-say "Training finished!"')

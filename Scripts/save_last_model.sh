@@ -15,3 +15,5 @@ cat ./Models/VAE_1/VAE_1_parameters.py >> "./Output/$NOW/parameters"
 mv "./Output/Images" "./StoreResults/$NOW/"
 
 mkdir "./Output/Images"
+
+mv "./Output/hyperparameters.txt" "./StoreResults/$NOW/"

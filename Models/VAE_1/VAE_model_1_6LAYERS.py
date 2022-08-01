@@ -71,7 +71,6 @@ VAE.summary()
 
 def loss_func(encoder_mu, encoder_log_variance):
     def vae_reconstruction_loss(y_true, y_predict):
-
         reconstruction_loss = tf.math.reduce_sum(tf.math.square(y_true-y_predict), axis=[1, 2, 3])
         return reconstruction_loss
 
