@@ -12,7 +12,7 @@ tfkb = tfk.backend
 # function for sampling from mu and log_var
 def sampling(mu_log_variance):
     mu, log_variance = mu_log_variance
-    epsilon =  tf.random.normal(shape=(tf.shape(mu)[0], tf.shape(mu)[1]), mean=0.0, stddev=1.0)
+    epsilon = tf.random.normal(shape=(tf.shape(mu)[0], tf.shape(mu)[1]), mean=0.0, stddev=1.0)
     random_sample = mu + tf.math.exp(log_variance / 2) * epsilon
     return random_sample
 
@@ -72,7 +72,6 @@ def loss_func(encoder_mu, encoder_log_variance):
                                   axis=1)
         return kl_loss
 
-
     def vae_loss(y_true, y_predict):
         reconstruction_loss = vae_reconstruction_loss(y_true, y_predict)
         kl_loss = vae_kl_loss(y_true, y_predict)
@@ -80,7 +79,6 @@ def loss_func(encoder_mu, encoder_log_variance):
         return loss
 
     return vae_loss
-
 
 
 # Compile model
@@ -96,4 +94,3 @@ early_stopping_training_db = tfk.callbacks.EarlyStopping(monitor="loss",
                                                          patience=10,
                                                          verbose=2,
                                                          restore_best_weights=True)
-

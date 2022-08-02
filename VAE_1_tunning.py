@@ -8,7 +8,7 @@ import numpy as np
 from sklearn.model_selection import KFold, train_test_split
 from SupportCode.datasets_support import preprocess_data, create_image_augmentation_dir
 from Models.VAE_1.VAE_1_parameters import *
-from Models.VAE_1.VAE_model_1_4_layers import VAE, early_stopping_kfold, tfk, encoder, decoder
+from Models.VAE_1.VAE_model_1_9_layers_a1 import VAE, early_stopping_kfold, tfk, encoder, decoder
 from SupportCode.Paths import CropTumor
 import tensorflow as tf
 # Store initial model weights for resets
@@ -39,7 +39,7 @@ time_started = datetime.now()
 for converge_dataset, test_dataset in kFold.split(file_array):          # kfold split gives indexes sets
 
     # Secondary split of converge dataset to training and valuation dataset (train and val datasets are indexes)
-    train_dataset, val_dataset = train_test_split(converge_dataset, test_size=0.20, shuffle=True)
+    train_dataset, val_dataset = train_test_split(converge_dataset, test_size=0.20, shuffle=True, random_state=1)
 
     # tensorboard
     log_dir = "./Output/Logs/model_1_tuning" + datetime.now().strftime("%Y%m%d-%H%M%S")
