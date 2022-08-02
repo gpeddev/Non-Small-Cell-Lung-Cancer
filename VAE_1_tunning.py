@@ -86,6 +86,7 @@ for converge_dataset, test_dataset in kFold.split(file_array):          # kfold 
                           verbose=2
                           )
 
+    # clean dataset directory
     for f in glob.glob("./Data/09_TrainingSet_VAE1/*.png"):
         os.remove(f)
 
