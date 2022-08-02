@@ -4,7 +4,7 @@ from ProcessingCTs.SliceCalculations import SliceCalculations as Slcal
 
 
 class CT:
-
+    """ This class handles CT as an object and encapsulate basic functions on a CT level"""
     def __init__(self, filepath):
         filename = filepath.split("/")[-1]
         self.__image_data = Sitk.GetArrayFromImage(Sitk.ReadImage(filepath, Sitk.sitkUInt8))
@@ -29,6 +29,7 @@ class CT:
         Sitk.WriteImage(Sitk.GetImageFromArray(self.get_image_data()), filepath)
 
     def find_max_widths_per_ct(self):
+        """Scans all slice of the CT and gives the max allowed width for both row and column"""
         number_of_slices = self.__image_data.shape[0]
 
         widths = []
@@ -55,6 +56,7 @@ class CT:
 
     @staticmethod
     def crop_per_ct(image, width):
+        """Given a CT and the crop width, crops each slide of the CT based on the row, col center and width """
         data = Sitk.GetArrayFromImage(image)
         number_of_slices = data.shape[0]
         result_list = []

@@ -1,3 +1,5 @@
+# Fills the folder structure of our Data with the appropriate processed CTs and their masks
+
 from ProcessingCTs.DatabaseCT import DatabaseCT as dbCT
 from SupportCode.Paths import *
 

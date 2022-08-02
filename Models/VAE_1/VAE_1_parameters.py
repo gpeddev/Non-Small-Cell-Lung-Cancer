@@ -1,3 +1,4 @@
+# basic hyperparameters of our data
 learning_rate = 0.00001
 latent_dimensions = 64
 filters_number = 64

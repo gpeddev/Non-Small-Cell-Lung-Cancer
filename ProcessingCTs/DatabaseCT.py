@@ -8,9 +8,11 @@ import matplotlib.pyplot as plt
 
 
 class DatabaseCT:
+    """Basic class to handle the necessary functionality of our CTs and their masks"""
 
     @staticmethod
     def windowing(dir_in, dir_out, wl=-600, ww=1500, slope=1, intercept=-1024):
+        """Applies windowing CT with the appropriate parameters to the CTs from dir_in and saves them to dir_out"""
         for item in os.listdir(dir_in):
             image = Sitk.ReadImage(dir_in + item)
             casted_image = Sitk.Cast(image, Sitk.sitkInt32)
@@ -23,6 +25,7 @@ class DatabaseCT:
 
     @staticmethod
     def grayscale(dir_in, dir_out):
+        """Converts the CT to grayscale images and uint8 datatype"""
         for item in os.listdir(dir_in):
             image = Sitk.ReadImage(dir_in + item)
             image_data = Sitk.GetArrayFromImage(image)
@@ -35,6 +38,7 @@ class DatabaseCT:
 
     @staticmethod
     def masking(dir_in, dir_out, mask_dir):
+        """Applies masks"""
         for filename in os.listdir(dir_in):
             image = Sitk.ReadImage(dir_in + filename)
             mask_image = Sitk.ReadImage(mask_dir + filename.replace(".nii", "_roi.nii"))
@@ -45,6 +49,7 @@ class DatabaseCT:
 
     @staticmethod
     def cropping_minimum(dir_in, dir_out):
+        """Crops the CTs with the minimum possible width"""
         max_width = DatabaseCT.__find_max_width_per_database(dir_in)
         for item in os.listdir(dir_in):
             image = Sitk.ReadImage(dir_in+item, Sitk.sitkUInt8)
@@ -53,6 +58,7 @@ class DatabaseCT:
 
     @staticmethod
     def create_windowed_masks(dir_in, dir_out, window_width):
+        """Creates a new mask from an old mask of width window_width from the center of the old mask"""
         for filename in os.listdir(dir_in):
             mask_image = MaskCT(dir_in+filename)
             try:
@@ -78,6 +84,7 @@ class DatabaseCT:
 
     @staticmethod
     def slice_statistics(dir_in):
+        """Gives some statistics about the slices of all CTs"""
         total = 0
         counter = 0
         min_slides = 1000000

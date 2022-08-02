@@ -1,11 +1,15 @@
+# Contains the operation needed on a slice level
+
 import numpy as np
 from statistics import mean
 
 
 class SliceCalculations:
+    """ Helper class to encapsulate the functions on a slice level"""
 
     @staticmethod
     def find_min_max_per_slice(ct_slice):
+        """Find the min max index on a row and column level of each slice"""
         col_sum = np.where(np.sum(ct_slice, axis=0) > 0)
         row_sum = np.where(np.sum(ct_slice, axis=1) > 0)
 
@@ -21,6 +25,7 @@ class SliceCalculations:
 
     @staticmethod
     def find_center_per_slice(ct_slice):
+        """Find the center on a row and column level."""
         row1, row2, col1, col2 = SliceCalculations.find_min_max_per_slice(ct_slice)
         row_center = int(mean([row1, row2]))
         col_center = int(mean([col1, col2]))
@@ -28,10 +33,12 @@ class SliceCalculations:
 
     @staticmethod
     def crop_slice(ct_slice, row_center, col_center, width):
+        """Crop the slice based on the center and a window width arround it,"""
         return ct_slice[row_center - width: row_center + width, col_center - width: col_center + width]
 
     @staticmethod
     def problem_with_boundaries(ct_slice, row_center, col_center, width):
+        """Check if based on row, column center and width if there is an out of bounds case"""
         if row_center-width < 0:
             return True
         if row_center+width > ct_slice.shape[0]-1:
@@ -44,6 +51,7 @@ class SliceCalculations:
 
     @staticmethod
     def adjust_padding_center(ct_slice, row_center, col_center, width):
+        """in case a window based on the center row and column isnt possible adds padding"""
         if row_center-width < 0:
             temp_pad = abs(row_center - width)
             ct_slice = np.pad(ct_slice, ((temp_pad, 0), (0, 0)), "constant")

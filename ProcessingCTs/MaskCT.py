@@ -4,6 +4,7 @@ import numpy as np
 
 
 class MaskCT(CT):
+    """Class to encapsulate the functionality for the masks of the CTs"""
 
     @staticmethod
     def __new_mask_slide(ct_slice, row_center, col_center, width):

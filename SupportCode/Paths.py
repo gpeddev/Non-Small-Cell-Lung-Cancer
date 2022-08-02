@@ -1,3 +1,4 @@
+# directories
 Original_Images = "./Data/00_Images/"
 Original_Masks = "./Data/01_Masks/"
 WindowCT = "./Data/02_WindowCT_VAE1_results/"
