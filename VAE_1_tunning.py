@@ -8,7 +8,7 @@ import numpy as np
 from sklearn.model_selection import KFold, train_test_split
 from SupportCode.datasets_support import preprocess_data, create_image_augmentation_dir
 from Models.VAE_1.VAE_1_parameters import *
-from Models.VAE_1.VAE_model_1_9_layers_a1 import VAE, early_stopping_kfold, tfk, encoder, decoder
+from Models.VAE_1.VAE_model_1_4_layers_a1 import VAE, early_stopping_kfold, tfk, encoder, decoder
 from SupportCode.Paths import CropTumor
 import tensorflow as tf
 # Store initial model weights for resets
