@@ -34,7 +34,7 @@ def create_image_augmentation_dir(slices, growth_factor=5):
     """Fills the directory 09_TrainingSet_VAE1 with the augmented data"""
     number_of_slices = slices.shape[0]
     slices = slices*255
-    datagen = ImageDataGenerator(horizontal_flip=True, rotation_range=90)
+    datagen = ImageDataGenerator(horizontal_flip=True, rotation_range=180)
 
     i = 0
     for batch in datagen.flow(slices,
