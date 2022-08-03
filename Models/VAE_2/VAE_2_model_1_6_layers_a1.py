@@ -18,7 +18,7 @@ def sampling(mu_log_variance):
 
 
 # Encoder
-encoder_input_layer = tfkl.Input(shape=(138, 138, 1))
+encoder_input_layer = tfkl.Input(shape=(206, 206, 1))
 enc_conv_layer_1 = tfkl.Conv2D(filters=filters_number, kernel_size=3, strides=1, activation='relu', name="conv_layer_1")(encoder_input_layer)
 enc_conv_layer_2 = tfkl.Conv2D(filters=filters_number, kernel_size=3, strides=2, activation='relu', name="conv_layer_2")(enc_conv_layer_1)
 enc_conv_layer_3 = tfkl.Conv2D(filters=filters_number, kernel_size=3, strides=1, activation='relu', name="conv_layer_3")(enc_conv_layer_2)
@@ -37,15 +37,15 @@ encoder.summary()
 
 # Decoder
 decoder_input_layer = tfkl.Input(shape=latent_dimensions)
-dec_dense_layer = tfkl.Dense(units=14 * 14 * 64, activation=tf.nn.relu)(decoder_input_layer)
-dec_reshape_layer = tfkl.Reshape(target_shape=(14, 14, 64))(dec_dense_layer)
-dec_convT_layer_1 = tfkl.Conv2DTranspose(filters=filters_number, kernel_size=3, strides=1, padding="valid", activation='relu', name="convT_layer_1")(dec_reshape_layer)
-dec_convT_layer_2 = tfkl.Conv2DTranspose(filters=filters_number, kernel_size=3, strides=2, padding='same', activation='relu', name="convT_layer_2")(dec_convT_layer_1)
-dec_convT_layer_3 = tfkl.Conv2DTranspose(filters=filters_number, kernel_size=3, strides=1, padding='valid', activation='relu', name="convT_layer_3")(dec_convT_layer_2)
-dec_convT_layer_4 = tfkl.Conv2DTranspose(filters=filters_number, kernel_size=3, strides=2, padding='same', activation='relu', name="convT_layer_4")(dec_convT_layer_3)
+dec_dense_layer = tfkl.Dense(units=23 * 23 * 64, activation=tf.nn.relu)(decoder_input_layer)
+dec_reshape_layer = tfkl.Reshape(target_shape=(23, 23, 64))(dec_dense_layer)
+dec_convT_layer_1 = tfkl.Conv2DTranspose(filters=filters_number, kernel_size=3, strides=2, padding="valid", activation='relu', name="convT_layer_1")(dec_reshape_layer)
+dec_convT_layer_2 = tfkl.Conv2DTranspose(filters=filters_number, kernel_size=3, strides=1, padding='valid', activation='relu', name="convT_layer_2")(dec_convT_layer_1)
+dec_convT_layer_3 = tfkl.Conv2DTranspose(filters=filters_number, kernel_size=3, strides=2, padding='valid', activation='relu', name="convT_layer_3")(dec_convT_layer_2)
+dec_convT_layer_4 = tfkl.Conv2DTranspose(filters=filters_number, kernel_size=3, strides=1, padding='valid', activation='relu', name="convT_layer_4")(dec_convT_layer_3)
 dec_convT_layer_5 = tfkl.Conv2DTranspose(filters=filters_number, kernel_size=3, strides=2, padding='same', activation='relu', name="convT_layer_5")(dec_convT_layer_4)
 dec_convT_layer_6 = tfkl.Conv2DTranspose(filters=filters_number, kernel_size=3, strides=1, padding='valid', activation='relu', name="convT_layer_6")(dec_convT_layer_5)
-dec_convT_layer_7 = tfkl.Conv2DTranspose(filters=1, kernel_size=3, strides=1, padding='same', activation='relu', name="convT_layer_7")(dec_convT_layer_6)
+dec_convT_layer_7 = tfkl.Conv2DTranspose(filters=1, kernel_size=3, strides=1, padding='valid', activation='relu', name="convT_layer_7")(dec_convT_layer_6)
 
 # Build the decoder model
 decoder = tf.keras.Model(decoder_input_layer, dec_convT_layer_7, name="decoder")
@@ -53,7 +53,7 @@ decoder.summary()
 
 
 # Build VAE
-VAE_input = tfkl.Input((138, 138, 1))
+VAE_input = tfkl.Input((206, 206, 1))
 VAE_enc_output = encoder(VAE_input)
 
 VAE = tfk.Model(VAE_input, decoder(VAE_enc_output))

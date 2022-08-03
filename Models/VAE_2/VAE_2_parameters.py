@@ -6,5 +6,4 @@ kernels_number = 3
 stride = 2
 batch_sz = 32
 kl_weight = 1
-reconstruction_weight = 1000
-adj_range = 255
+reconstruction_weight = 1

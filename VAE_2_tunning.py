@@ -56,7 +56,7 @@ for converge_dataset, test_dataset in kFold.split(file_array):          # kfold 
     train_dset = tf.keras.preprocessing.image_dataset_from_directory(directory="./Data/09_TrainingSet_VAE1",
                                                                      labels=None,
                                                                      label_mode=None,
-                                                                     image_size=(138, 138),
+                                                                     image_size=(206, 206),
                                                                      color_mode="grayscale",
                                                                      batch_size=None,
                                                                      shuffle=True)
