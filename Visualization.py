@@ -3,6 +3,7 @@ import tensorflow as tf
 from matplotlib import pyplot as plt
 
 # load models
+from Models.VAE_1.VAE_1_parameters import adj_range
 from SupportCode.datasets_support import preprocess_data
 from SupportCode.Paths import CropTumor
 
@@ -43,10 +44,10 @@ for i in range(5):
         temp = np.reshape(item, newshape=(1, item.shape[0], item.shape[1], 1))
         result = VAEs[i](temp)
         input_image = np.reshape(item, newshape=(item.shape[0], item.shape[1]))
-        input_image = input_image * 255
+        input_image = input_image * adj_range
         plt.imsave("./Output/Images/" + str(i) + "/" + str(image_counter) + 'a.jpeg', input_image)
         output_image = np.reshape(result[0], newshape=(result[0].shape[0], result[0].shape[1]))
-        output_image = output_image * 255
+        output_image = output_image * adj_range
         plt.imsave("./Output/Images/" + str(i) + "/" + str(image_counter) + 'b.jpeg', output_image)
         image_counter = image_counter + 1
 

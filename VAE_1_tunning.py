@@ -16,7 +16,7 @@ initial_weights = VAE.get_weights()
 
 
 def preprocess_dataset_train(image):
-    image = tf.cast(image, tf.float32) / 255.  # Scale to unit interval.
+    image = tf.cast(image, tf.float32) / adj_range  # Scale to unit interval.
     return image, image
 
 
