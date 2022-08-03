@@ -16,7 +16,7 @@ initial_weights = VAE.get_weights()
 
 
 def preprocess_dataset_train(image):
-    image = tf.cast(image, tf.float32) / adj_range  # Scale to unit interval.
+    image = tf.cast(image, tf.float32) / 255  # Scale to unit interval.
     return image, image
 
 
@@ -42,7 +42,7 @@ for converge_dataset, test_dataset in kFold.split(file_array):          # kfold 
     train_dataset, val_dataset = train_test_split(converge_dataset, test_size=0.20, shuffle=True, random_state=1)
 
     # tensorboard
-    log_dir = "./Output/Logs/model_1_tuning" + datetime.now().strftime("%Y%m%d-%H%M%S")
+    log_dir = "./Output/VAE_1/Logs/model_1_tuning" + datetime.now().strftime("%Y%m%d-%H%M%S")
     tensorboard_callback = tfk.callbacks.TensorBoard(log_dir=log_dir, update_freq='epoch')
 
     # get database ready for our models. shape => (slice number, slice width, slice height, 1(slice depth) )
@@ -91,14 +91,14 @@ for converge_dataset, test_dataset in kFold.split(file_array):          # kfold 
         os.remove(f)
 
     # store trained models
-    VAE.save("./Output/Models/VAE_" + str(counter))
-    encoder.save("./Output/Models/VAE_encoder_" + str(counter))
-    decoder.save("./Output/Models/VAE_decoder_" + str(counter))
+    VAE.save("./Output/VAE_1/Models/VAE_" + str(counter))
+    encoder.save("./Output/VAE_1/Models/VAE_encoder_" + str(counter))
+    decoder.save("./Output/VAE_1/Models/VAE_decoder_" + str(counter))
 
     # store filenames for each dataset
-    np.save("./Output/DatasetSplits/" + "test_dataset_fold_" + str(counter), file_array[test_dataset])
-    np.save("./Output/DatasetSplits/" + "val_dataset_fold_" + str(counter), file_array[val_dataset])
-    np.save("./Output/DatasetSplits/" + "train_dataset_fold_" + str(counter), file_array[train_dataset])
+    np.save("./Output/VAE_1/DatasetSplits/" + "test_dataset_fold_" + str(counter), file_array[test_dataset])
+    np.save("./Output/VAE_1/DatasetSplits/" + "val_dataset_fold_" + str(counter), file_array[val_dataset])
+    np.save("./Output/VAE_1/DatasetSplits/" + "train_dataset_fold_" + str(counter), file_array[train_dataset])
 
     counter = counter + 1
 
@@ -124,7 +124,7 @@ output = "Average Loss at kfold at valuation data is: " + str(add_val_losses / l
 print(output)
 
 # save hyperparameters to file
-text_file = open("./Output/hyperparameters.txt", "w")
+text_file = open("./Output/VAE_1/hyperparameters.txt", "w")
 text_file.write(output)
 text_file.close()
 
