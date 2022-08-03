@@ -1,2 +1,11 @@
-/Data/
+/Data/00_Images/
+/Data/01_Masks/
+/Data/02_WindowCT_VAE1_results/
+/Data/03_GrayscaleCT_VAE1_results/
+/Data/04_MaskCT_VAE1_results/
+/Data/05_CropTumor_VAE1_results/
+/Data/06_NewMaskWindow_VAE2_results/
+/Data/07_MaskedCT_VAE2_results/
+/Data/08_CroppedWindow_VAE2_results/
+/Data/09_TrainingSet_VAE1/
 /Output/
