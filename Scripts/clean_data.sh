@@ -11,3 +11,4 @@ rm -rf ./Data/06_NewMaskWindow_VAE2_results
 rm -rf ./Data/07_MaskedCT_VAE2_results
 rm -rf ./Data/08_CroppedWindow_VAE2_results
 rm -rf ./Data/09_TrainingSet_VAE1
+rm -rf ./Data/10_TrainingSet_VAE2
