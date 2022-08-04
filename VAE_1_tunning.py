@@ -104,6 +104,9 @@ for converge_dataset, test_dataset in kFold.split(file_array):          # kfold 
 
     kFold_results.append(fit_results)
 
+# save model graph
+tf.keras.utils.plot_model(VAE, to_file="./Output/VAE_1/vae_1.png", show_shapes=True, expand_nested=True)
+
 time_ended = datetime.now()
 
 # Calculate average validation loss across the k models.
