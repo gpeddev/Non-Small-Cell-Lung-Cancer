@@ -22,3 +22,5 @@ mv "./Output/VAE_2/DatasetSplits" "./StoreResults/VAE_2/$NOW/"
 mkdir "./Output/VAE_2/DatasetSplits"
 
 mv "./Output/VAE_2/hyperparameters.txt" "./StoreResults/VAE_2/$NOW/"
+
+mv "./Output/VAE_2/vae_2.png" "./StoreResults/$NOW/"
