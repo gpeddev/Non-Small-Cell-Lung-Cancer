@@ -25,8 +25,8 @@ vae_3 = tf.keras.models.load_model('./Output/VAE_1/Models/VAE_3.h5', compile=Fal
 vae_4 = tf.keras.models.load_model('./Output/VAE_!/Models/VAE_4.h5', compile=False)
 vae_5 = tf.keras.models.load_model('./Output/VAE_1/Models/VAE_5.h5', compile=False)
 VAEs = [vae_1, vae_2, vae_3, vae_4, vae_5]
-# load names of test datasets for each model
 
+# load names of test datasets for each model
 test_dataset_1 = np.load("./Output/VAE_1/DatasetSplits/test_dataset_fold_1.npy")
 test_dataset_2 = np.load("./Output/VAE_1/DatasetSplits/test_dataset_fold_2.npy")
 test_dataset_3 = np.load("./Output/VAE_1/DatasetSplits/test_dataset_fold_3.npy")
