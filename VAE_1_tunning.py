@@ -91,9 +91,9 @@ for converge_dataset, test_dataset in kFold.split(file_array):          # kfold 
         os.remove(f)
 
     # store trained models
-    VAE.save("./Output/VAE_1/Models/VAE_" + str(counter))
-    encoder.save("./Output/VAE_1/Models/VAE_encoder_" + str(counter))
-    decoder.save("./Output/VAE_1/Models/VAE_decoder_" + str(counter))
+    VAE.save("./Output/VAE_1/Models/VAE_" + str(counter)+".h5")
+    encoder.save("./Output/VAE_1/Models/VAE_encoder_" + str(counter)+".h5")
+    decoder.save("./Output/VAE_1/Models/VAE_decoder_" + str(counter)+".h5")
 
     # store filenames for each dataset
     np.save("./Output/VAE_1/DatasetSplits/" + "test_dataset_fold_" + str(counter), file_array[test_dataset])

@@ -6,24 +6,24 @@ from matplotlib import pyplot as plt
 from SupportCode.datasets_support import preprocess_data
 from SupportCode.Paths import CroppedWindow
 
-encoder_1 = tf.keras.models.load_model('./Output/VAE_1/Models/VAE_encoder_1', compile=False)
-encoder_2 = tf.keras.models.load_model('./Output/VAE_1/Models/VAE_encoder_2', compile=False)
-encoder_3 = tf.keras.models.load_model('./Output/VAE_1/Models/VAE_encoder_3', compile=False)
-encoder_4 = tf.keras.models.load_model('./Output/VAE_1/Models/VAE_encoder_4', compile=False)
-encoder_5 = tf.keras.models.load_model('./Output/VAE_1/Models/VAE_encoder_5', compile=False)
+encoder_1 = tf.keras.models.load_model('./Output/VAE_1/Models/VAE_encoder_1.h5', compile=False)
+encoder_2 = tf.keras.models.load_model('./Output/VAE_1/Models/VAE_encoder_2.h5', compile=False)
+encoder_3 = tf.keras.models.load_model('./Output/VAE_1/Models/VAE_encoder_3.h5', compile=False)
+encoder_4 = tf.keras.models.load_model('./Output/VAE_1/Models/VAE_encoder_4.h5', compile=False)
+encoder_5 = tf.keras.models.load_model('./Output/VAE_1/Models/VAE_encoder_5.h5', compile=False)
 encoders = [encoder_1, encoder_2, encoder_3, encoder_4, encoder_5]
 
-decoder_1 = tf.keras.models.load_model('./Output/VAE_1/Models/VAE_decoder_1', compile=False)
-decoder_2 = tf.keras.models.load_model('./Output/VAE_1Models/VAE_decoder_2', compile=False)
-decoder_3 = tf.keras.models.load_model('./Output/VAE_1/Models/VAE_decoder_3', compile=False)
-decoder_4 = tf.keras.models.load_model('./Output/VAE_1/Models/VAE_decoder_4', compile=False)
-decoder_5 = tf.keras.models.load_model('./Output/VAE_1/Models/VAE_decoder_5', compile=False)
+decoder_1 = tf.keras.models.load_model('./Output/VAE_1/Models/VAE_decoder_1.h5', compile=False)
+decoder_2 = tf.keras.models.load_model('./Output/VAE_1Models/VAE_decoder_2.h5', compile=False)
+decoder_3 = tf.keras.models.load_model('./Output/VAE_1/Models/VAE_decoder_3.h5', compile=False)
+decoder_4 = tf.keras.models.load_model('./Output/VAE_1/Models/VAE_decoder_4.h5', compile=False)
+decoder_5 = tf.keras.models.load_model('./Output/VAE_1/Models/VAE_decoder_5.h5', compile=False)
 
-vae_1 = tf.keras.models.load_model('./Output/VAE_1/Models/VAE_1', compile=False)
-vae_2 = tf.keras.models.load_model('./Output/VAE_1/Models/VAE_2', compile=False)
-vae_3 = tf.keras.models.load_model('./Output/VAE_1/Models/VAE_3', compile=False)
-vae_4 = tf.keras.models.load_model('./Output/VAE_!/Models/VAE_4', compile=False)
-vae_5 = tf.keras.models.load_model('./Output/VAE_1/Models/VAE_5', compile=False)
+vae_1 = tf.keras.models.load_model('./Output/VAE_1/Models/VAE_1.h5', compile=False)
+vae_2 = tf.keras.models.load_model('./Output/VAE_1/Models/VAE_2.h5', compile=False)
+vae_3 = tf.keras.models.load_model('./Output/VAE_1/Models/VAE_3.h5', compile=False)
+vae_4 = tf.keras.models.load_model('./Output/VAE_!/Models/VAE_4.h5', compile=False)
+vae_5 = tf.keras.models.load_model('./Output/VAE_1/Models/VAE_5.h5', compile=False)
 VAEs = [vae_1, vae_2, vae_3, vae_4, vae_5]
 # load names of test datasets for each model
 
