@@ -14,7 +14,7 @@ encoder_5 = tf.keras.models.load_model('./Output/VAE_1/Models/VAE_encoder_5.h5',
 encoders = [encoder_1, encoder_2, encoder_3, encoder_4, encoder_5]
 
 decoder_1 = tf.keras.models.load_model('./Output/VAE_1/Models/VAE_decoder_1.h5', compile=False)
-decoder_2 = tf.keras.models.load_model('./Output/VAE_1Models/VAE_decoder_2.h5', compile=False)
+decoder_2 = tf.keras.models.load_model('./Output/VAE_1/Models/VAE_decoder_2.h5', compile=False)
 decoder_3 = tf.keras.models.load_model('./Output/VAE_1/Models/VAE_decoder_3.h5', compile=False)
 decoder_4 = tf.keras.models.load_model('./Output/VAE_1/Models/VAE_decoder_4.h5', compile=False)
 decoder_5 = tf.keras.models.load_model('./Output/VAE_1/Models/VAE_decoder_5.h5', compile=False)
