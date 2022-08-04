@@ -51,9 +51,9 @@ for converge_dataset, test_dataset in kFold.split(file_array):          # kfold 
 
     # training dataset
     # create directory with augmented images
-    create_image_augmentation_dir(train_slices, growth_factor=10)
+    create_image_augmentation_dir(train_slices, growth_factor=10, save_to_path="./Data/10_TrainingSet_VAE2")
     # create a dataset from directory
-    train_dset = tf.keras.preprocessing.image_dataset_from_directory(directory="./Data/09_TrainingSet_VAE1",
+    train_dset = tf.keras.preprocessing.image_dataset_from_directory(directory="./Data/10_TrainingSet_VAE2",
                                                                      labels=None,
                                                                      label_mode=None,
                                                                      image_size=(206, 206),
@@ -80,7 +80,7 @@ for converge_dataset, test_dataset in kFold.split(file_array):          # kfold 
 
     # fit model
     fit_results = VAE.fit(train_dset,
-                          epochs=1000,
+                          epochs=2,
                           validation_data=val_dset,
                           callbacks=[early_stopping_kfold, tensorboard_callback],
                           verbose=2
@@ -91,9 +91,9 @@ for converge_dataset, test_dataset in kFold.split(file_array):          # kfold 
         os.remove(f)
 
     # store trained models
-    VAE.save("./Output/VAE_2/Models/VAE_" + str(counter))
-    encoder.save("./Output/VAE_2/Models/VAE_encoder_" + str(counter))
-    decoder.save("./Output/VAE_2/Models/VAE_decoder_" + str(counter))
+    VAE.save("./Output/VAE_2/Models/VAE_" + str(counter)+".h5")
+    encoder.save("./Output/VAE_2/Models/VAE_encoder_" + str(counter)+".h5")
+    decoder.save("./Output/VAE_2/Models/VAE_decoder_" + str(counter)+".h5")
 
     # store filenames for each dataset
     np.save("./Output/VAE_2/DatasetSplits/" + "test_dataset_fold_" + str(counter), file_array[test_dataset])

@@ -32,8 +32,8 @@ def preprocess_data(path, filenames):
     return selected_slices
 
 
-def create_image_augmentation_dir(slices, growth_factor=5):
-    """Fills the directory 09_TrainingSet_VAE1 with the augmented data"""
+def create_image_augmentation_dir(slices, save_to_path, growth_factor=5):
+    """Fills the directory with the augmented data"""
     number_of_slices = slices.shape[0]
     slices = slices*255
     datagen = ImageDataGenerator(horizontal_flip=True, rotation_range=180)
@@ -43,7 +43,7 @@ def create_image_augmentation_dir(slices, growth_factor=5):
                               shuffle=False,
                               seed=1,
                               batch_size=1,
-                              save_to_dir="./Data/09_TrainingSet_VAE1",
+                              save_to_dir=save_to_path,
                               save_format="png",
                               save_prefix="slice_"):
         i = i+1

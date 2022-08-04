@@ -1,6 +1,6 @@
 # basic hyperparameters of our data
 learning_rate = 0.00001
-latent_dimensions = 64
+latent_dimensions = 256
 filters_number = 64
 kernels_number = 3
 stride = 2
