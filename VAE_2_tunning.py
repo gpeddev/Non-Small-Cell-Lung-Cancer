@@ -42,7 +42,7 @@ for converge_dataset, test_dataset in kFold.split(file_array):          # kfold 
     train_dataset, val_dataset = train_test_split(converge_dataset, test_size=0.20, shuffle=True, random_state=1)
 
     # tensorboard
-    log_dir = "./Output/Logs/model_1_tuning" + datetime.now().strftime("%Y%m%d-%H%M%S")
+    log_dir = "./Output/VAE_1/Logs/model_1_tuning" + datetime.now().strftime("%Y%m%d-%H%M%S")
     tensorboard_callback = tfk.callbacks.TensorBoard(log_dir=log_dir, update_freq='epoch')
 
     # get database ready for our models. shape => (slice number, slice width, slice height, 1(slice depth) )
