@@ -8,7 +8,7 @@ import numpy as np
 from sklearn.model_selection import KFold, train_test_split
 from SupportCode.datasets_support import preprocess_data, create_image_augmentation_dir
 from Models.VAE_2.VAE_2_parameters import *
-from Models.VAE_2.VAE_2_model_1_6_layers_a1 import VAE, early_stopping_kfold, tfk, encoder, decoder
+from Models.VAE_2.VAE_2_model_1 import VAE, early_stopping_kfold, tfk, encoder, decoder
 from SupportCode.Paths import CroppedWindow
 import tensorflow as tf
 # Store initial model weights for resets
@@ -131,4 +131,4 @@ text_file.write(output)
 text_file.close()
 
 # Notify finish training
-os.system('spd-say "Training finished!"')
+# os.system('spd-say "Training finished!"')

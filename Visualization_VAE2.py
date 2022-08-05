@@ -50,3 +50,4 @@ for i in range(5):
         plt.imsave("./Output/VAE_2/Images/" + str(i) + "/" + str(image_counter) + 'b.jpeg', output_image)
         image_counter = image_counter + 1
 
+print("Visualization finished!")
