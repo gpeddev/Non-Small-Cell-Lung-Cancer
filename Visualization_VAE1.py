@@ -1,10 +1,12 @@
+import os
+
 import numpy as np
 import tensorflow as tf
 from matplotlib import pyplot as plt
 
 # load models
 from SupportCode.datasets_support import preprocess_data
-from SupportCode.Paths import CroppedWindow
+from SupportCode.Paths import CropTumor
 
 encoder_1 = tf.keras.models.load_model('./Output/VAE_1/Models/VAE_encoder_1.h5', compile=False)
 encoder_2 = tf.keras.models.load_model('./Output/VAE_1/Models/VAE_encoder_2.h5', compile=False)
@@ -22,7 +24,7 @@ decoder_5 = tf.keras.models.load_model('./Output/VAE_1/Models/VAE_decoder_5.h5',
 vae_1 = tf.keras.models.load_model('./Output/VAE_1/Models/VAE_1.h5', compile=False)
 vae_2 = tf.keras.models.load_model('./Output/VAE_1/Models/VAE_2.h5', compile=False)
 vae_3 = tf.keras.models.load_model('./Output/VAE_1/Models/VAE_3.h5', compile=False)
-vae_4 = tf.keras.models.load_model('./Output/VAE_!/Models/VAE_4.h5', compile=False)
+vae_4 = tf.keras.models.load_model('./Output/VAE_1/Models/VAE_4.h5', compile=False)
 vae_5 = tf.keras.models.load_model('./Output/VAE_1/Models/VAE_5.h5', compile=False)
 VAEs = [vae_1, vae_2, vae_3, vae_4, vae_5]
 
@@ -36,7 +38,7 @@ test_datasets = [test_dataset_1, test_dataset_2, test_dataset_3, test_dataset_4,
 
 
 for i in range(5):
-    data = preprocess_data(CroppedWindow, test_datasets[i])
+    data = preprocess_data(CropTumor, test_datasets[i])
     image_counter = 0
     # iterate data and get features
     for item in data:
@@ -50,3 +52,5 @@ for i in range(5):
         plt.imsave("./Output/VAE_1/Images/" + str(i) + "/" + str(image_counter) + 'b.jpeg', output_image)
         image_counter = image_counter + 1
 
+# Notify finish training
+os.system('spd-say "Visualization finished!"')
