@@ -83,7 +83,7 @@ VAE.compile(optimizer=tfk.optimizers.Adam(learning_rate=learning_rate),
 
 
 early_stopping_kfold = tfk.callbacks.EarlyStopping(monitor="val_loss",
-                                                   patience=15,
+                                                   patience=10,
                                                    verbose=2,
                                                    restore_best_weights=True)
 early_stopping_training_db = tfk.callbacks.EarlyStopping(monitor="loss",
