@@ -1,6 +1,6 @@
 import tensorflow as tf
 import tensorflow_probability as tfp
-from Models.VAE_1.VAE_1_parameters import *
+from Models.VAE_1.VAE_1_model_1_parameters import *
 
 tfk = tf.keras
 tfkl = tf.keras.layers

@@ -1,7 +1,7 @@
 import tensorflow as tf
 import os
 vaes_latent_space=128
-from Models.VAE_1.VAE_1_parameters import batch_sz, latent_dimensions
+from Models.VAE_1.VAE_1_model_1_parameters import batch_sz, latent_dimensions
 from SupportCode.Paths import CropTumor
 import numpy as np
 

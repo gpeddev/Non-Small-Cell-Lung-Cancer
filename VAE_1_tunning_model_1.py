@@ -7,7 +7,7 @@ from datetime import datetime
 import numpy as np
 from sklearn.model_selection import KFold, train_test_split
 from SupportCode.datasets_support import preprocess_data, create_image_augmentation_dir
-from Models.VAE_1.VAE_1_parameters import *
+from Models.VAE_1.VAE_1_model_1_parameters import *
 from Models.VAE_1.VAE_1_model_1 import VAE, early_stopping_kfold, tfk, encoder, decoder
 from SupportCode.Paths import CropTumor
 import tensorflow as tf
@@ -112,7 +112,7 @@ time_ended = datetime.now()
 # Calculate average validation loss across the k models.
 add_val_losses = 0
 for item in kFold_results:
-    add_val_losses = add_val_losses + item.history["val_loss"][-1]
+    add_val_losses = add_val_losses + min(item.history["val_loss"][-1])
 
 output = "Average Loss at kfold at valuation data is: " + str(add_val_losses / len(kFold_results)) + "\n" + \
          "Time started: " + str(time_started) + "\n" + \
