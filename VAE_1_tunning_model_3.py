@@ -112,7 +112,7 @@ time_ended = datetime.now()
 # Calculate average validation loss across the k models.
 add_val_losses = 0
 for item in kFold_results:
-    add_val_losses = add_val_losses + min(item.history["val_loss"][-1])
+    add_val_losses = add_val_losses + min(item.history["val_loss"])
 
 output = "Average Loss at kfold at valuation data is: " + str(add_val_losses / len(kFold_results)) + "\n" + \
          "Time started: " + str(time_started) + "\n" + \
