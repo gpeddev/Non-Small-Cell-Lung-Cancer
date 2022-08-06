@@ -51,7 +51,10 @@ for converge_dataset, test_dataset in kFold.split(file_array):          # kfold 
 
     # training dataset
     # create directory with augmented images
-    create_image_augmentation_dir(train_slices, save_to_path="./Data/09_TrainingSet_VAE1", growth_factor=10)
+    print("data augmentation...")
+    create_image_augmentation_dir(train_slices, save_to_path="./Data/09_TrainingSet_VAE1", growth_factor=15)
+    print("data augmentation completed")
+
     # create a dataset from directory
     train_dset = tf.keras.preprocessing.image_dataset_from_directory(directory="./Data/09_TrainingSet_VAE1",
                                                                      labels=None,
