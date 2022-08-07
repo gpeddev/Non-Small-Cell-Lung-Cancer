@@ -83,7 +83,7 @@ for converge_dataset, test_dataset in kFold.split(file_array):          # kfold 
 
     # fit model
     fit_results = VAE.fit(train_dset,
-                          epochs=10000,
+                          epochs=100000,
                           validation_data=val_dset,
                           callbacks=[early_stopping_kfold, tensorboard_callback],
                           verbose=2
