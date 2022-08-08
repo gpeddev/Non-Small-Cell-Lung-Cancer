@@ -12,3 +12,8 @@ rm -rf ./Output/VAE_1/Images/3/*
 rm -rf ./Output/VAE_1/Images/4/*
 
 rm -rf ./Data/09_TrainingSet_VAE1/*
+
+rm -rf ./Output/VAE_1/DatasetSplits/*
+
+rm -rf ./Output/VAE_1/hyperparameters.txt
+rm -rf ./Output/VAE_1/vae_1.png
