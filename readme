@@ -1,0 +1,60 @@
+Instructions:
+1.Run Script->restore_from_backup.sh in order to fill the folders 00_Images and 01_Masks
+2.Run Preprocessing in order to fill preprocess the CTs. The results are storred on folders
+from 02_WindowCT_VAE1_results to 08_CroppedWindow_VAE2_results. (See description of each folder)
+3.Run VAE_1_tunning_model_1.py or VAE_1_tunning_model_2.py etc to train the corresponding model
+Results are storred in Output folder
+
+
+Directories
+
+Data=>
+00_Images: CT scans
+01_Masks: CT masks
+02_WindowCT_VAE1_results: CT after applied window
+03_GrayscaleCT_VAE1_results: CT after converted to uint8 and 0-255 range
+04_MaskCT_VAE1_results: CTs after applied the mask
+05_CropTumor_VAE1_results: CT after an area with the center of tumor is cropped
+(size of the area the max length of tumor on all slices)
+06_NewMaskWindow_VAE2_results: Expands the mask to a window (in order to crop a window around the tumor)
+07_MaskedCT_VAE2_results: Applies the mask to the CT
+08_CroppedWindow_VAE2_results: Crop the CTs of the above directory.
+
+Models=>
+Folder that holds the code of the training models
+
+Output=>
+Folder that holds the results of the training network
+
+PreprocessingCTs=>
+Folder for the code of preprocessing the images
+
+Scripts=>
+clean_data.sh: Script to clean all contain of folders from 00_* until 10_*
+restore_from_backup.sh: restore 00_Images and 01_Masks containt
+VAE_1_clean_after_tunning.sh: Clean Output folder
+VAE_1_save_last_model.sh: Saves last model from Output to StoreResults
+VAE_2_clean_after_tunning.sh: Clean Output folder
+VAE_2_save_last_model.sh: Saves last model from Output to StoreResults
+
+StoreResults=>
+Folder to store the model
+
+SupportCode=>
+Paths and dataset handling code
+
+ModelComparison.py=>
+
+Preprocessing.py=>
+Run to create the contain of 00_Images until 08_CroppedWindow_VAE2_results
+
+SSIM calculator.py=>
+Code for comparing models
+
+TestGPU.py=>
+test if GPU is working
+
+VAE_1_tunning_model_1.py=>
+Run this to train the VAE_1_model_1.py
+
+
