@@ -13,7 +13,7 @@ rm -rf ./Output/VAE_2/Images/4/*
 
 rm -rf ./Data/10_TrainingSet_VAE2/*
 
-rm -rf ./Output/VAE_1/DatasetSplits/*
+rm -rf ./Output/VAE_2/DatasetSplits/*
 
-rm -rf ./Output/VAE_1/hyperparameters.txt
-rm -rf ./Output/VAE_1/vae_1.png
+rm -rf ./Output/VAE_2/hyperparameters.txt
+rm -rf ./Output/VAE_2/vae_2.png
