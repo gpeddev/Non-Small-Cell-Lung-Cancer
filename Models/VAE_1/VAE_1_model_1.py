@@ -35,8 +35,8 @@ encoder.summary()
 
 # Decoder
 decoder_input_layer = tfkl.Input(shape=latent_dimensions)
-dec_dense_layer = tfkl.Dense(units=32 * 32 * 32, activation=tf.nn.relu)(decoder_input_layer)
-dec_reshape_layer = tfkl.Reshape(target_shape=(32, 32, 32))(dec_dense_layer)
+dec_dense_layer = tfkl.Dense(units=32 * 32 * filters_number, activation=tf.nn.relu)(decoder_input_layer)
+dec_reshape_layer = tfkl.Reshape(target_shape=(32, 32, filters_number))(dec_dense_layer)
 dec_convT_layer_1 = tfkl.Conv2DTranspose(filters=filters_number, kernel_size=3, strides=1, padding="valid", activation='relu', name="convT_layer_1")(dec_reshape_layer)
 dec_convT_layer_2 = tfkl.Conv2DTranspose(filters=filters_number, kernel_size=3, strides=2, padding='same', activation='relu', name="convT_layer_2")(dec_convT_layer_1)
 dec_convT_layer_3 = tfkl.Conv2DTranspose(filters=filters_number, kernel_size=3, strides=2, padding='same', activation='relu', name="convT_layer_3")(dec_convT_layer_2)
