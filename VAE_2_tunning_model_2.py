@@ -9,7 +9,7 @@ from sklearn.model_selection import KFold, train_test_split
 from SupportCode.datasets_support import preprocess_data, create_image_augmentation_dir
 from Models.VAE_2.VAE_2_model_2_parameters import *
 from Models.VAE_2.VAE_2_model_2 import VAE, early_stopping_kfold, tfk, encoder, decoder
-from SupportCode.Paths import CropTumor
+from SupportCode.Paths import CroppedWindow
 import tensorflow as tf
 # Store initial model weights for resets
 initial_weights = VAE.get_weights()
@@ -25,7 +25,7 @@ def preprocess_dataset_valuation(image):
 
 
 # Get data from the appropriate directory
-file_array = os.listdir(CropTumor)
+file_array = os.listdir(CroppedWindow)
 file_array = np.array(file_array)           # array of patients filenames
 
 kFold = KFold(n_splits=5, shuffle=True, random_state=1)
@@ -42,17 +42,17 @@ for converge_dataset, test_dataset in kFold.split(file_array):          # kfold 
     train_dataset, val_dataset = train_test_split(converge_dataset, test_size=0.20, shuffle=True, random_state=1)
 
     # tensorboard
-    log_dir = "./Output/VAE_2/Logs/model_1_tuning" + datetime.now().strftime("%Y%m%d-%H%M%S")
+    log_dir = "./Output/VAE_2/Logs/model_2_tuning" + datetime.now().strftime("%Y%m%d-%H%M%S")
     tensorboard_callback = tfk.callbacks.TensorBoard(log_dir=log_dir, update_freq='epoch')
 
     # get database ready for our models. shape => (slice number, slice width, slice height, 1(slice depth) )
-    train_slices = preprocess_data(CropTumor, file_array[train_dataset])
-    val_slices = preprocess_data(CropTumor, file_array[val_dataset])
+    train_slices = preprocess_data(CroppedWindow, file_array[train_dataset])
+    val_slices = preprocess_data(CroppedWindow, file_array[val_dataset])
 
     # training dataset
     # create directory with augmented images
     print("data augmentation...")
-    create_image_augmentation_dir(train_slices, save_to_path="./Data/10_TrainingSet_VAE2", growth_factor=1)
+    create_image_augmentation_dir(train_slices, save_to_path="./Data/10_TrainingSet_VAE2", growth_factor=10)
     print("data augmentation completed")
 
     # create a dataset from directory
@@ -83,7 +83,7 @@ for converge_dataset, test_dataset in kFold.split(file_array):          # kfold 
 
     # fit model
     fit_results = VAE.fit(train_dset,
-                          epochs=2,
+                          epochs=10000,
                           validation_data=val_dset,
                           callbacks=[early_stopping_kfold, tensorboard_callback],
                           verbose=2
