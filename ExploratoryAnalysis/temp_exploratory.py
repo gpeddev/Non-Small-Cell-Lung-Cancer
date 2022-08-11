@@ -6,10 +6,10 @@ import os
 pd.options.mode.chained_assignment = None
 
 # load dataframe
-messy_data = pd.read_csv("./ClinicalData/NSCLCR01Radiogenomic_DATA_LABELS_2018-05-22_1500-shifted.csv")
+messy_data = pd.read_csv("../ClinicalData/NSCLCR01Radiogenomic_DATA_LABELS_2018-05-22_1500-shifted.csv")
 
 # find patients in the study
-patient_namelist = os.listdir("./Data/00_Images")
+patient_namelist = os.listdir("../Data/00_Images")
 
 # removes .nii
 patient_namelist = [patient.rsplit(".")[0] for patient in patient_namelist]
