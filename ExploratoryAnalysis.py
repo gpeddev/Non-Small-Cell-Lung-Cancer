@@ -1,5 +1,7 @@
 import pandas as pd
 import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
 import os
 pd.options.mode.chained_assignment = None
 
@@ -14,6 +16,46 @@ patient_namelist = [patient.rsplit(".")[0] for patient in patient_namelist]
 
 # keeps patients of interest
 df = messy_data[messy_data['Case ID'].isin(patient_namelist)]
+df.dtypes
+df_description=df.describe(include='all')
+df.corr()[['Age at Histological Diagnosis']].sort_values(by='Age at Histological Diagnosis', ascending=False)
+df.isnull().sum()
+
+df_correlation=df.corr()
+
+sns.heatmap(df.corr())
+sns.heatmap(df.corr());
+
+
+plt.figure(figsize=(8, 12))
+heatmap = sns.heatmap(df.corr()["Recurrence"].sort_values(by="Recurrence", ascending=False),vmin=-1, vmax=1, annot=True, cmap='BrBG')
+
+plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # ############################################################################### Convert variables to appropriate type
