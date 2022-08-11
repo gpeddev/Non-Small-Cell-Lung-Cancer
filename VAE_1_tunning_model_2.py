@@ -7,8 +7,8 @@ from datetime import datetime
 import numpy as np
 from sklearn.model_selection import KFold, train_test_split
 from SupportCode.datasets_support import preprocess_data, create_image_augmentation_dir
-from Models.VAE_1.VAE_1_model_1_parameters import *
-from Models.VAE_1.VAE_1_model_1 import VAE, early_stopping_kfold, tfk, encoder, decoder
+from Models.VAE_1.VAE_1_model_2_parameters import *
+from Models.VAE_1.VAE_1_model_2 import VAE, early_stopping_kfold, tfk, encoder, decoder
 from SupportCode.Paths import CropTumor
 import tensorflow as tf
 # Store initial model weights for resets
@@ -51,7 +51,10 @@ for converge_dataset, test_dataset in kFold.split(file_array):          # kfold 
 
     # training dataset
     # create directory with augmented images
+    print("data augmentation...")
     create_image_augmentation_dir(train_slices, save_to_path="./Data/09_TrainingSet_VAE1", growth_factor=10)
+    print("data augmentation completed")
+
     # create a dataset from directory
     train_dset = tf.keras.preprocessing.image_dataset_from_directory(directory="./Data/09_TrainingSet_VAE1",
                                                                      labels=None,
@@ -80,7 +83,7 @@ for converge_dataset, test_dataset in kFold.split(file_array):          # kfold 
 
     # fit model
     fit_results = VAE.fit(train_dset,
-                          epochs=1000,
+                          epochs=10000,
                           validation_data=val_dset,
                           callbacks=[early_stopping_kfold, tensorboard_callback],
                           verbose=2
