@@ -6,11 +6,11 @@ import os
 pd.options.mode.chained_assignment = None
 
 # load dataframe
-data = pd.read_csv("../ClinicalData/NSCLCR01Radiogenomic_DATA_LABELS_2018-05-22_1500-shifted.csv")
+data = pd.read_csv("./ClinicalData/NSCLCR01Radiogenomic_DATA_LABELS_2018-05-22_1500-shifted.csv")
 data.dtypes
 
 # Remove patients we dont need
-patient_namelist = os.listdir("../Data/00_Images")
+patient_namelist = os.listdir("./Data/00_Images")
 patient_namelist = [patient.rsplit(".")[0] for patient in patient_namelist]     # removes .nii
 data = data[data['Case ID'].isin(patient_namelist)]
 
@@ -82,13 +82,13 @@ data.dtypes
 # %GG
 data["%GG"].unique()
 
-# Ordinal data replaced by 0,1,2,3,4,5
-data.loc[:,"%GG"] = data["%GG"].replace("0%",0)
-data.loc[:,"%GG"] = data["%GG"].replace(">0 - 25%",1)
-data.loc[:,"%GG"] = data["%GG"].replace("50 - 75%",2)
-data.loc[:,"%GG"] = data["%GG"].replace("25 - 50%",3)
-data.loc[:,"%GG"] = data["%GG"].replace("75 - < 100%",4)
-data.loc[:,"%GG"] = data["%GG"].replace("100%",5)
+# # Ordinal data replaced by 0,1,2,3,4,5
+# data.loc[:,"%GG"] = data["%GG"].replace("0%",0)
+# data.loc[:,"%GG"] = data["%GG"].replace(">0 - 25%",1)
+# data.loc[:,"%GG"] = data["%GG"].replace("50 - 75%",2)
+# data.loc[:,"%GG"] = data["%GG"].replace("25 - 50%",3)
+# data.loc[:,"%GG"] = data["%GG"].replace("75 - < 100%",4)
+# data.loc[:,"%GG"] = data["%GG"].replace("100%",5)
 data["%GG"].unique()
 data.dtypes
 
@@ -174,4 +174,4 @@ data["Recurrence_distant"].unique()
 data.loc[:,"Recurrence_distant"] = pd.Categorical(data["Recurrence_distant"])
 
 data.dtypes
-data.to_csv("data.csv",header=True,index=True)
+data.to_csv("./ExploratoryAnalysis/data.csv",header=True,index=True)
