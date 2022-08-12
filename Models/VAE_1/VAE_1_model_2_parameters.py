@@ -1,7 +1,7 @@
 # basic hyperparameters of our data
 learning_rate = 0.0001
-filters_number = 32
-latent_dimensions = 256
+filters_number = 64
+latent_dimensions = 64
 kl_weight = 1
 
 
