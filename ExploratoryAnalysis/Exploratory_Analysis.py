@@ -194,5 +194,64 @@ data["Adjuvant Treatment"].value_counts()
 data.loc[:,"Adjuvant Treatment"] = pd.Categorical(data["Adjuvant Treatment"])
 
 # Chemotherapy
+data.loc[:,"Chemotherapy"] = pd.Categorical(data["Chemotherapy"])
 data["Chemotherapy"].unique()
 data["Chemotherapy"].value_counts()
+data.dtypes
+
+# Radiation
+data["Radiation"].unique()
+data["Radiation"].value_counts()
+data.loc[:,"Radiation"] = pd.Categorical(data["Radiation"])
+
+# Recurrence
+data["Recurrence"].unique()
+data["Recurrence"].value_counts()
+data.loc[:,"Recurrence"] = pd.Categorical(data["Recurrence"])
+
+# percentage recurrence
+data["Recurrence"].value_counts()/data["Recurrence"].count()*100
+
+
+# Pie chart for Recurrence
+values = data["Recurrence"].value_counts()
+labels = data["Recurrence"].unique().tolist()
+plt.pie(values,labels=labels, radius=1)
+plt.show()
+data.loc[:,"Recurrence"] = pd.Categorical(data["Recurrence"])
+
+# Recurrence Location
+data["Recurrence Location"].unique()
+data["Recurrence Location"].value_counts()
+data.loc[:,"Recurrence Location"] = pd.Categorical(data["Recurrence Location"])
+
+# Pie chart for Recurrence Location
+values = data["Recurrence Location"].value_counts()
+labels = data["Recurrence Location"].unique().tolist()
+labels.remove(np.nan)
+plt.pie(values,labels=labels, radius=1)
+plt.show()
+data.loc[:,"Recurrence Location"] = pd.Categorical(data["Recurrence Location"])
+
+# percentage of each group
+data["Recurrence Location"].value_counts()/data["Recurrence Location"].count()*100
+data.dtypes
+
+# Date of Recurrence
+# convert dates to timestamp
+data['Date of Recurrence'] = pd.to_datetime(data['Date of Recurrence'])
+data['Date of Recurrence'] = data['Date of Recurrence'].astype('int64')
+data['Date of Recurrence'] = data['Date of Recurrence'].replace(-9223372036854775808, np.nan)
+
+
+data['Date of Last Known Alive'] = pd.to_datetime(data['Date of Last Known Alive'])
+data['Date of Last Known Alive'] = data['Date of Last Known Alive'].astype('int64')
+data['Date of Last Known Alive'] = data['Date of Last Known Alive'].replace(-9223372036854775808, np.nan)
+
+# survival status
+data.loc[:,"Survival Status"] = pd.Categorical(data["Survival Status"])
+
+# date of death
+data['Date of Death'] = pd.to_datetime(data['Date of Death'])
+data['Date of Death'] = data['Date of Death'].astype('int64')
+data['Date of Death'] = data['Date of Death'].replace(-9223372036854775808, np.nan)
