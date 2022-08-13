@@ -33,4 +33,6 @@ print("MaskedCT_VAE2 ready")
 dbCT.cropping_minimum(MaskedCT_VAE2, CroppedWindow)
 print("CroppedWindow ready")
 
+dbCT.slice_statistics(Original_Images)
+
 print("\nFinish Preprocessing Data")
