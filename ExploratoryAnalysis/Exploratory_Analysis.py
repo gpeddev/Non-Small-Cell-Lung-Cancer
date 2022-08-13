@@ -1,5 +1,4 @@
 import pandas as pd
-import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
 from matplotlib.patches import Patch
@@ -7,7 +6,7 @@ import os
 pd.options.mode.chained_assignment = None
 
 # fix colors
-plot_colors=['#FFAA56','#568BFF']
+plot_colors=['#FFAA56','#568BFF',"#7ebf28","#a6990d","#e83a00"]
 
 # load dataframe
 data = pd.read_csv("./ExploratoryAnalysis/data.csv")
@@ -17,9 +16,10 @@ data.dtypes
 data.head()
 
 # Age at Histological Diagnosis
-data["Age at Histological Diagnosis"].describe()
+plt.hist(data['Age at Histological Diagnosis'], density=True, bins=20,color="#568BFF",stacked=True)  # density=False would make counts
+plt.xlabel('Age at Histological Diagnosis');
+plt.show()
 
-# make boxplot
 
 # Weight (lbs)
 data["Weight (lbs)"].unique()
@@ -31,7 +31,9 @@ data["Gender"].value_counts()
 # Pie chart for Recurrence
 values = data["Gender"].value_counts()
 labels = data["Gender"].unique().tolist()
-plt.pie(values,labels=labels, radius=1,autopct='%1.1f%%',colors=plot_colors)
+
+
+plt.pie(values,labels=[labels[1],labels[0]], radius=1,autopct='%1.1f%%',colors=plot_colors)
 plt.title("Patients Gender")
 plt.show()
 
@@ -45,6 +47,8 @@ data["Ethnicity"].value_counts()/data["Ethnicity"].count()*100
 # create pie chart for ethnicity
 values = data["Ethnicity"].value_counts()
 labels = data["Ethnicity"].unique().tolist()
+extra_colors=plot_colors
+
 plt.pie(values,labels=labels, radius=1,autopct='%1.1f%%',colors=plot_colors)
 plt.title("Ethnicity of patients")
 plt.show()
@@ -173,3 +177,67 @@ sns.boxplot(x='Recurrence',y='Pack Years',data=data, palette=plot_colors)
 plt.title("Recurrence by pack years")
 plt.show()
 
+# smoking status vs recurrence
+counts_df = data.groupby(["Smoking status", "Recurrence"])["Case ID"].count().unstack()
+survived_percents_df = counts_df.T.div(counts_df.T.sum()).T
+fig, ax = plt.subplots()
+
+survived_percents_df.plot(kind="bar", stacked=True, color=["#FFAA56", "#568BFF"], ax=ax)
+data["Smoking status"].unique()
+ax.set_xlabel("Smoking status")
+ax.set_xticklabels(["Former", "Non smoker", "Current"], rotation=0)
+ax.set_ylabel("Recurrence")
+
+color_patches = [
+    Patch(facecolor="#FFAA56", label="No Recurrence"),
+    Patch(facecolor="#568BFF", label="Recurrence")
+]
+ax.legend(handles=color_patches)
+
+fig.suptitle("Smoking status vs. Recurrence");
+plt.show()
+
+# Recurrence vs Histopathological Grade
+counts_df = data.groupby(["Histopathological Grade", "Recurrence"])["Case ID"].count().unstack()
+survived_percents_df = counts_df.T.div(counts_df.T.sum()).T
+fig, ax = plt.subplots()
+
+survived_percents_df.plot(kind="bar", stacked=True, color=["#FFAA56", "#568BFF"], ax=ax)
+data["Histopathological Grade"].unique()
+ax.set_xlabel("Histopathological Grade")
+ax.set_xticklabels(['G2', 'G1',
+       'Other, Type I',
+       'G3.',
+       'Other, Type II'], rotation=0)
+ax.set_ylabel("Recurrence")
+
+color_patches = [
+    Patch(facecolor="#FFAA56", label="No Recurrence"),
+    Patch(facecolor="#568BFF", label="Recurrence")
+]
+ax.legend(handles=color_patches)
+
+fig.suptitle("Histopathological Grade vs. Recurrence");
+plt.show()
+
+
+# Recurrence vs Histology
+counts_df = data.groupby(["Histology", "Recurrence"])["Case ID"].count().unstack()
+survived_percents_df = counts_df.T.div(counts_df.T.sum()).T
+fig, ax = plt.subplots()
+
+survived_percents_df.plot(kind="bar", stacked=True, color=["#FFAA56", "#568BFF"], ax=ax)
+data["Histology"].unique()
+ax.set_xlabel("Histology tumor")
+ax.set_xticklabels(['Adenocarcinoma', 'Squamous cell carcinoma',
+       'NSCLC NOS'], rotation=0)
+ax.set_ylabel("Recurrence")
+
+color_patches = [
+    Patch(facecolor="#FFAA56", label="No Recurrence"),
+    Patch(facecolor="#568BFF", label="Recurrence")
+]
+ax.legend(handles=color_patches)
+
+fig.suptitle("Histology vs. Recurrence");
+plt.show()
