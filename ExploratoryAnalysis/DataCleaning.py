@@ -35,13 +35,6 @@ data.drop("PET Date",inplace=True,axis=1)
 # Remaining variables
 data.dtypes
 
-# Recurrence location make new variable Recurrence_distant and
-data=data.assign(Recurrence_distant=data['Recurrence Location']=="distant")
-data.drop("Recurrence Location",inplace=True,axis=1)
-data.drop("Date of Recurrence",inplace=True,axis=1)
-data.describe()
-data.dtypes
-
 
 # Drop Quit Smoking Year
 data.drop("Quit Smoking Year",inplace=True,axis=1)
@@ -168,10 +161,6 @@ data.loc[:,"Radiation"] = pd.Categorical(data["Radiation"])
 # Recurrence
 data["Recurrence"].unique()
 data.loc[:,"Recurrence"] = pd.Categorical(data["Recurrence"])
-
-# Recurrence_distant
-data["Recurrence_distant"].unique()
-data.loc[:,"Recurrence_distant"] = pd.Categorical(data["Recurrence_distant"])
 
 data.dtypes
 data.to_csv("./ExploratoryAnalysis/data.csv",header=True,index=True)
