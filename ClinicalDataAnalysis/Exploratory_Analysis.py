@@ -9,7 +9,7 @@ pd.options.mode.chained_assignment = None
 plot_colors=['#FFAA56','#568BFF',"#7ebf28","#a6990d","#e83a00"]
 
 # load dataframe
-data = pd.read_csv("./ExploratoryAnalysis/data.csv")
+data = pd.read_csv("./ClinicalDataAnalysis/data.csv")
 data.dtypes
 
 # Exploratory Analysis

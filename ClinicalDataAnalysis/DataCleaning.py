@@ -162,5 +162,9 @@ data.loc[:,"Radiation"] = pd.Categorical(data["Radiation"])
 data["Recurrence"].unique()
 data.loc[:,"Recurrence"] = pd.Categorical(data["Recurrence"])
 
+data["Date of Recurrence"].unique()
+data.drop("Date of Recurrence",inplace=True,axis=1)
+
+
 data.dtypes
-data.to_csv("./ExploratoryAnalysis/data.csv",header=True,index=True)
+data.to_csv("./ClinicalDataAnalysis/data.csv",header=True,index=False)
