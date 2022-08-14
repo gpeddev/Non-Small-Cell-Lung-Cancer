@@ -2,7 +2,7 @@
 learning_rate = 0.00001
 filters_number = 64
 latent_dimensions = 256
-kl_weight = 1
+kl_weight = 0.125
 
 
 
