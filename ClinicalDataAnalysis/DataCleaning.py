@@ -165,6 +165,6 @@ data.loc[:,"Recurrence"] = pd.Categorical(data["Recurrence"])
 data["Date of Recurrence"].unique()
 data.drop("Date of Recurrence",inplace=True,axis=1)
 
-
+data.drop("Recurrence Location",inplace=True,axis=1)
 data.dtypes
 data.to_csv("./ClinicalDataAnalysis/data.csv",header=True,index=False)
