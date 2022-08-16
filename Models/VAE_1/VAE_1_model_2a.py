@@ -95,4 +95,4 @@ early_stopping_training_db = tfk.callbacks.EarlyStopping(monitor="loss",
                                                          verbose=2,
                                                          restore_best_weights=True)
 
-tf.keras.utils.plot_model(VAE, to_file="./vae_1_model_1.png", show_shapes=False, expand_nested=True)
+tf.keras.utils.plot_model(VAE, to_file="./vae_1_model_1a.png", show_shapes=True, expand_nested=True)
