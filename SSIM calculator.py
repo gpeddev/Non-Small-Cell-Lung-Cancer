@@ -6,11 +6,11 @@ from matplotlib import pyplot as plt
 
 # load models
 from SupportCode.datasets_support import preprocess_data
-from SupportCode.Paths import CropTumor
+from SupportCode.Paths import CropTumor,CroppedWindow
 from skimage.metrics import structural_similarity as ssim
 
 
-def evaluate_vae_ssim(vae_path, dataset_path,val=True):
+def evaluate_vae_ssim(vae_path, dataset_path,image_path,val):
     """evaluate vaes ssim."""
     if val==True:
         # load names of test datasets for each model
@@ -38,11 +38,10 @@ def evaluate_vae_ssim(vae_path, dataset_path,val=True):
     VAEs = [vae_1, vae_2, vae_3, vae_4, vae_5]
 
 
-
     results = []
     for i in range(5):
         s_s_i_m = 0
-        data = preprocess_data(CropTumor, datasets[i])
+        data = preprocess_data(image_path, datasets[i])
         for item in data:
             temp = np.reshape(item, newshape=(1, item.shape[0], item.shape[1], 1))
             result = VAEs[i](temp)
@@ -55,33 +54,31 @@ def evaluate_vae_ssim(vae_path, dataset_path,val=True):
 
 # my computer couldnt handle all of them. Run out of memory. Uncomment if you want to run all together.
 
-# x1=evaluate_vae_ssim("./BestResults/VAE_1/Model_1a/17_2022-08-13_10_26_21/Models",
-#                     "./BestResults/VAE_1/Model_1a/17_2022-08-13_10_26_21/DatasetSplits", val=True)
-# print("model_1 kl=1")
-# print(x1)
-#
-# x2=evaluate_vae_ssim("./BestResults/VAE_1/Model_1a/18_2022-08-13_10_27_30/Models",
-#                     "./BestResults/VAE_1/Model_1a/18_2022-08-13_10_27_30/DatasetSplits", val=True)
-# print("model_1 kl=0.5")
-# print(x2)
 
-# x3=evaluate_vae_ssim("./BestResults/VAE_1/Model_1a/19_2022-08-13_10_28_14/Models",
-#                     "./BestResults/VAE_1/Model_1a/19_2022-08-13_10_28_14/DatasetSplits", val=True)
-# print("model_1 kl=0.25")
-# print(x3)
-#
-# x4=evaluate_vae_ssim("./BestResults/VAE_1/Model_1a/44_2022-08-14_11_53_46/Models",
-#                     "./BestResults/VAE_1/Model_1a/44_2022-08-14_11_53_46/DatasetSplits", val=True)
-# print("model_1 kl=0.125")
-# print(x4)
-
-
-x1=evaluate_vae_ssim("./BestResults/VAE_1/Model_1a/17_2022-08-13_10_26_21/Models",
-                     "./BestResults/VAE_1/Model_1a/17_2022-08-13_10_26_21/DatasetSplits", val=False)
+x1=evaluate_vae_ssim("./BestResults/VAE_2/Model_1/17_2022-08-15_19_47_42/Models",
+                     "./BestResults/VAE_2/Model_1/17_2022-08-15_19_47_42/DatasetSplits",
+                     image_path=CroppedWindow,
+                     val=True)
 print("model_1 kl=1")
 print(x1)
 
-x1=evaluate_vae_ssim("./BestResults/VAE_1/Model_1/17_2022-08-10_01_47_44/Models",
-                     "./BestResults/VAE_1/Model_1/17_2022-08-10_01_47_44/DatasetSplits", val=False)
-print("model_1 kl=1")
+x1=evaluate_vae_ssim("./BestResults/VAE_2/Model_1/20_2022-08-15_19_51_41/Models",
+                     "./BestResults/VAE_2/Model_1/20_2022-08-15_19_51_41/DatasetSplits",
+                     image_path=CroppedWindow,
+                     val=False)
+print("model_1 kl=0.125")
+print(x1)
+
+x1=evaluate_vae_ssim("./BestResults/VAE_2/Model_1/22_2022-08-16_04_02_50/Models",
+                     "./BestResults/VAE_2/Model_1/22_2022-08-16_04_02_50/DatasetSplits",
+                     image_path=CroppedWindow,
+                     val=True)
+print("model_1 kl=0.5")
+print(x1)
+
+x1=evaluate_vae_ssim("./BestResults/VAE_2/Model_1/23_2022-08-15_19_35_09/Models",
+                     "./BestResults/VAE_2/Model_1/23_2022-08-15_19_35_09/DatasetSplits",
+                     image_path=CroppedWindow,
+                     val=True)
+print("model_1 kl=0.25")
 print(x1)
