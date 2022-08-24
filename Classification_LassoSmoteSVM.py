@@ -19,11 +19,11 @@ from imblearn.pipeline import Pipeline
 # ################################################################################## SELECT VARIABLES FOR REVIEWING CODE
 latent_space = 256
 baseline = False
-model_path = "./BestResults/VAE_1/Model_1/19_2022-08-10_01_53_19"
+model_path = "./BestResults/VAE_2/Model_1/20_2022-08-15_19_51_41"
 
 # Use CropTumor for the first VAE(VAE-tumor), Use CroppedWindow for the second VAE(VAE-window)
-image_source = CropTumor
-# image_source = CroppedWindow
+#image_source = CropTumor
+image_source = CroppedWindow
 
 
 # ################################################################################################ LOAD AND PREPARE DATA
@@ -41,7 +41,7 @@ for i in range(latent_space * 2):
 
 # load vectors from 5 kfold models
 print("Pooling VAE")
-pool_rslt_1 = pooling(model_path+"/Models", latent_space, CropTumor)
+pool_rslt_1 = pooling(model_path+"/Models", latent_space, image_source)
 
 # ############################################################################################ PERFORM FEATURE SELECTION
 f1_score_result = []
