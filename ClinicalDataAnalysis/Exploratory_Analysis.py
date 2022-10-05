@@ -2,7 +2,6 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 from matplotlib.patches import Patch
-import os
 pd.options.mode.chained_assignment = None
 
 # fix colors

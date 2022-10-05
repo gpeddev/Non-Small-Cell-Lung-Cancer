@@ -12,7 +12,7 @@ from skimage.metrics import structural_similarity as ssim
 # point to the model you want to calculate SSIM score
 # if you want to test VAE 2 category use CroppedWindow else use CropTumor for VAE 1
 # for testing VAE on validation dataset set val=True or for testing dataset set val = False
-model_path="./BestResults/VAE_1/Model_1/17_2022-08-10_01_47_44"
+model_path="./BestResults/VAE_2/Model_2/20_2022-08-17_03_22_09"
 
 def evaluate_vae_ssim(vae_path,image_path,val):
     """evaluate vaes ssim."""
@@ -54,8 +54,8 @@ def evaluate_vae_ssim(vae_path,image_path,val):
     return sum(results)/5
 
 
-# my computer couldnt more than one since each evaluate_vae_ssim loads 5 models so I had to run it one by one
+# my computer couldnt run more than one since each evaluate_vae_ssim loads 5 models so I had to run it one by one
 x1=evaluate_vae_ssim(model_path,
-                     image_path=CropTumor,
+                     image_path=CroppedWindow,
                      val=False)
 print(x1)
