@@ -124,16 +124,11 @@ def print_graph2(grid_models,testing_dataset):
     plt.show()
 
 
-def model_evaluation(grid_models,testing_dataset,baseline):
+def model_evaluation(grid_models,testing_dataset):
     sens_rslts = []
     spec_rslts = []
 
     for i in range(5):
-
-        if baseline is False:
-
-            pass
-
         g_prediction = grid_models[i].predict(testing_dataset[i].drop("Case ID", axis=1).drop("Recurrence", axis=1))
 
         # print classification report
@@ -170,7 +165,7 @@ def svm_model(baseline, dataset_result, data, model_path):
         # removes file extension
         patient_names_test_dataset = [patient.rsplit(".")[0] for patient in patient_names_test_dataset]
 
-#        temp["Case ID"] = data["Case ID"]
+        temp["Case ID"] = data["Case ID"]
 
         # ################################################################################## Start Clinical Data Integration
 
@@ -218,7 +213,7 @@ def svm_model(baseline, dataset_result, data, model_path):
         print(grid.best_params_)
         # print how our model looks after hyper-parameter tuning
         print(grid.best_estimator_)
-    return grid_models
+    return grid_models, testing_dataset
 
 def logistic_model(baseline,dataset_result,data,model_path):
     grid_models = []
@@ -279,9 +274,8 @@ def logistic_model(baseline,dataset_result,data,model_path):
         print(grid.best_estimator_)
     return grid_models,testing_dataset
 
-def feature_selection_lasso(data,kfold_list_features,model_path,baseline):
+def feature_selection_lasso(data,kfold_list_features,model_path):
     dataset_result=[]
-    testing_dataset_result=[]
     for vae_counter in range(5):
 
         # new_data => ready dataformat for use in machine learning algorithms
@@ -290,40 +284,19 @@ def feature_selection_lasso(data,kfold_list_features,model_path,baseline):
         new_data = pd.merge(new_data, kfold_list_features[vae_counter])
         new_data["Recurrence"] = new_data["Recurrence"].replace("yes", 1)
         new_data["Recurrence"] = new_data["Recurrence"].replace("no", 0)
-
-
-
-        dataset_path = model_path + "/DatasetSplits"
-        patient_names_test_dataset = np.load(dataset_path + "/test_dataset_fold_" + str(vae_counter + 1) + ".npy")
-        # removes file extension
-        patient_names_test_dataset = [patient.rsplit(".")[0] for patient in patient_names_test_dataset]
-
-        # select rows whos Case ID is in test_dataset_1
-        test_dataset = new_data[new_data['Case ID'].isin(patient_names_test_dataset)]
-        # select rows whos Case ID is not in test_dataset_1
-        train_dataset = new_data[~new_data['Case ID'].isin(patient_names_test_dataset)]
-
-        tr=train_dataset.drop("Case ID", axis=1)
-
-
-#        new_data.drop("Case ID", inplace=True, axis=1)
+        new_data.drop("Case ID", inplace=True, axis=1)
 
         # Split to Y_true containing the true values
         # Split to X containing the data values
-        Y_true = tr["Recurrence"]
-        X = tr.drop("Recurrence", axis=1)
-
-        Y_test = test_dataset["Recurrence"]
-        X_test = test_dataset.drop("Case ID", axis=1).drop("Recurrence", axis=1)
-
-
+        Y_true = new_data["Recurrence"]
+        X = new_data.drop("Recurrence", axis=1)
 
         # ################################################### feature selection using LogisticRegression (L1 regularization)
-#        X_train, X_test, y_train, y_test = train_test_split(X, Y_true, test_size=0.3, random_state=1)
+        X_train, X_test, y_train, y_test = train_test_split(X, Y_true, test_size=0.3, random_state=1)
 
         grid_search_pipeline = Pipeline([
             ('scaler', StandardScaler()),
-            ('model', LogisticRegression(penalty='l1', solver='liblinear', max_iter=10000))
+            ('model', LogisticRegression(penalty='l1', solver='liblinear', max_iter=1000))
         ])
 
         search = GridSearchCV(grid_search_pipeline,
@@ -331,22 +304,13 @@ def feature_selection_lasso(data,kfold_list_features,model_path,baseline):
                               cv=5, scoring="balanced_accuracy", verbose=1, n_jobs=-1
                               )
 
-        search.fit(X, Y_true)
+        search.fit(X_train, y_train)
         optimalC = search.best_params_["model__C"]
         coefficients = search.best_estimator_.named_steps['model'].coef_
         importance = np.abs(coefficients)[0]
         features = X.columns
         survived_columns = features[importance != 0]
         print(f"Selected number of variables: {len(survived_columns)}")
-
-        survived_columns=list(survived_columns)
-        survived_columns.append("Case ID")
-        survived_columns.append("Recurrence")
-        test_dataset_recuced=test_dataset[survived_columns]
-
-        testing_dataset_result.append(test_dataset_recuced)
-
-
         # ################################## final score of optimal value
 
         # create pipeline for final score. train on train dataset (including validation) and test on test dataset
@@ -354,19 +318,16 @@ def feature_selection_lasso(data,kfold_list_features,model_path,baseline):
             ('scaler', StandardScaler()),
             ('model', LogisticRegression(penalty='l1', solver='liblinear', C=optimalC))
         ])
-        test_pipeline.fit(X, Y_true)
+        test_pipeline.fit(X_train, y_train)
         y_pred = test_pipeline.predict(X_test)
-        f1score = f1_score(Y_test, y_pred, average="weighted")
+        f1score = f1_score(y_test, y_pred, average="weighted")
         # Print performance metrics
         print(f"F1 score: {f1score}")
 
         # create final X and concat with Y_true
-
-        final_X = X
+        final_X = X.loc[:, survived_columns]
         final_X["Recurrence"] = Y_true
-        final_X["Case ID"] = train_dataset["Case ID"]
-        final_X=final_X[survived_columns]
         # store result
         dataset_result.append(final_X)
-    return dataset_result, testing_dataset_result
+    return dataset_result
 

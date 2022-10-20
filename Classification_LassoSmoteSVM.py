@@ -16,7 +16,7 @@ from imblearn.pipeline import Pipeline
 
 # ################################################################################## SELECT VARIABLES FOR REVIEWING CODE
 latent_space = 256
-baseline = True
+baseline = False
 model_path = "./BestResults/VAE_2/Model_1/20_2022-08-15_19_51_41"
 
 # Use CropTumor for the first VAE(VAE-tumor), Use CroppedWindow for the second VAE(VAE-window)
@@ -56,13 +56,13 @@ for i in range(5):
     kfold_list_features.append(temp1)
 
 # ############################################################################################## feature selection lasso
-dataset_result = feature_selection_lasso(data, kfold_list_features)
+training_dataset, testing_dataset = feature_selection_lasso(data, kfold_list_features, model_path)
 
 # ################################################################################################################## SVM
-grid_models, testing_dataset = svm_model(baseline, dataset_result, data, model_path)
+grid_models = svm_model(baseline, training_dataset, data, model_path)
 
 # ###################################################################### MODEL EVALUATION AND PRINT STATISTICS AND PLOTS
-model_evaluation(grid_models, testing_dataset)
+model_evaluation(grid_models, testing_dataset, baseline)
 
 # ################################################################################################################ GRAPH
 print_graph(grid_models, testing_dataset)

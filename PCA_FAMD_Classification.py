@@ -5,7 +5,7 @@ from imblearn.pipeline import Pipeline
 from sklearn.model_selection import GridSearchCV
 from sklearn.svm import SVC
 
-from SupportCode.Classification_Support import print_graph
+from SupportCode.Classification_Support import print_graph2
 from SupportCode.FAMD_Classification_Support import get_data
 from SupportCode.Paths import CropTumor, CroppedWindow
 import numpy as np
@@ -17,11 +17,11 @@ import matplotlib.pyplot as plt
 # ################################################################################## SELECT VARIABLES FOR REVIEWING CODE
 latent_space = 256
 baseline = True
-model_path = "./BestResults/VAE_1/Model_1/17_2022-08-10_01_47_44"
+model_path = "./BestResults/VAE_2/Model_1/20_2022-08-15_19_51_41"
 
 # Use CropTumor for the first VAE(VAE-tumor), Use CroppedWindow for the second VAE(VAE-window)
-image_source = CropTumor
-#image_source = CroppedWindow
+#image_source = CropTumor
+image_source = CroppedWindow
 
 
 # ################################################################################################ LOAD AND PREPARE DATA
@@ -125,10 +125,15 @@ for i in range(5):
                           ("oversampling", SMOTE(sampling_strategy=0.7)),
                           ('model', SVC(probability=True, class_weight="balanced", tol=1e-3))])
 
-    grid = GridSearchCV(new_model, param_grid, refit=True, scoring="balanced_accuracy", verbose=2, n_jobs=14)
+    grid = GridSearchCV(new_model, param_grid, refit=True, scoring="balanced_accuracy", verbose=2, n_jobs=12)
     # fitting the model for grid search
     grid.fit(pca_train_transformed.drop("Recurrence", axis=1), pca_train_transformed["Recurrence"])
     grid_models.append(grid)
     testing_dataset.append(pca_test_transformed)
+    y_pred = grid.predict(pca_test_transformed.drop("Recurrence", axis=1))
+    y_true = pca_test_transformed[["Recurrence"]]
+    print("TRST")
 
-print_graph(grid_models,testing_dataset)
+y_pred=grid_models[0].predict(testing_dataset[0].drop("Recurrence", axis=1))
+y_true=testing_dataset[0][["Recurrence"]]
+print_graph2(grid_models,testing_dataset)
