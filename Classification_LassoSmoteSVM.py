@@ -26,7 +26,7 @@ image_source = CroppedWindow
 
 # ################################################################################################ LOAD AND PREPARE DATA
 np.random.seed(0)
-metric = "balanced_accuracy"
+#metric = "balanced_accuracy"
 
 # Load clinical data
 data = pd.read_csv("ClinicalDataAnalysis/data.csv")
@@ -42,8 +42,6 @@ print("Pooling VAE")
 pool_rslt = pooling(model_path + "/Models", latent_space, image_source)
 
 # ############################################################################################ PERFORM FEATURE SELECTION
-f1_score_result = []
-number_of_variables_result = []
 
 # Create a list of dataframes with the case id and the feature vectors
 kfold_list_features = []
